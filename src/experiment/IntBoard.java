@@ -22,11 +22,11 @@ public class IntBoard {
 		return null;
 	}
 	
-	void calcTargets(BoardCell startCell, int pathLength){
+	public void calcTargets(BoardCell startCell, int pathLength){
 		
 	}
 	
-	Set<BoardCell> getTargets(){
+	public Set<BoardCell> getTargets(){
 		return null;
 	}
 
