@@ -10,7 +10,7 @@ public class IntBoard {
 	private Set<BoardCell> targets;
 	private BoardCell[][] grid;
 	
-	IntBoard() {
+	public IntBoard() {
 		calcAdjacencies();
 	}
 	
@@ -18,7 +18,7 @@ public class IntBoard {
 		
 	}
 	
-	Set<BoardCell> getAdjList(){
+	public Set<BoardCell> getAdjList(BoardCell startCell){
 		return null;
 	}
 	
@@ -27,6 +27,10 @@ public class IntBoard {
 	}
 	
 	Set<BoardCell> getTargets(){
+		return null;
+	}
+
+	public BoardCell getCell(int i, int j) {
 		return null;
 	}
 	
