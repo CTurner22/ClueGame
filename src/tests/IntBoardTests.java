@@ -11,6 +11,11 @@ import org.junit.jupiter.api.Test;
 import experiment.BoardCell;
 import experiment.IntBoard;
 
+/*
+ * Tests for IntBoard
+ * Casey Turner, Murat Tuter
+ * 
+ */
 public class IntBoardTests {
 	
 	private IntBoard board;

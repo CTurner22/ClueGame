@@ -3,6 +3,11 @@ package experiment;
 import java.util.Map;
 import java.util.Set;
 
+/*
+ * IntBoard
+ * Casey Turner, Murat Tuter
+ * 
+ */
 public class IntBoard {
 
 	private Map<BoardCell, Set<BoardCell>> adjacencies;
