@@ -6,6 +6,9 @@ import static org.junit.Assert.assertTrue;
 import java.util.Set;
 
 import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import experiment.BoardCell;
@@ -20,9 +23,9 @@ public class IntBoardTests {
 	
 	private IntBoard board;
 
-	@Before
+	@BeforeEach
     public void beforeAll() {
-       board = new IntBoard();      
+        board = new IntBoard();  
     }
 	
 	
@@ -38,7 +41,7 @@ public class IntBoardTests {
 	}
 	
 	@Test
-	public void testAdjacencyBottomRight() {
+	public void testAdjacencyBottomRight() {   
 		BoardCell cell = board.getCell(3,3);
 		Set<BoardCell> testList = board.getAdjList(cell);
 		
