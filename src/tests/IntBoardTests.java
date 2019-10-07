@@ -117,15 +117,17 @@ public class IntBoardTests {
 	}
 	
 	@Test
-	public void testTargets2(){
+	public void testTargets2(){//		assertTrue(targets.contains(board.getCell(3, 2)));
+
 		
 		BoardCell cell = board.getCell(3, 2);
 		board.calcTargets(cell, 3);
 		
 		Set targets = board.getTargets();
 		
-		assertEquals(6, targets.size());
+		assertEquals(7, targets.size());
 		assertTrue(targets.contains(board.getCell(0, 2)));
+		assertTrue(targets.contains(board.getCell(2, 2)));
 		assertTrue(targets.contains(board.getCell(1, 1)));
 		assertTrue(targets.contains(board.getCell(1, 3)));
 		assertTrue(targets.contains(board.getCell(2, 0)));
@@ -160,15 +162,13 @@ public class IntBoardTests {
 		
 		Set targets = board.getTargets();
 		
-		assertEquals(8, targets.size());
+		assertEquals(6, targets.size());
 		assertTrue(targets.contains(board.getCell(0, 1)));
 		assertTrue(targets.contains(board.getCell(0, 3)));
 		assertTrue(targets.contains(board.getCell(1, 0)));
 		assertTrue(targets.contains(board.getCell(1, 2)));
 		assertTrue(targets.contains(board.getCell(2, 1)));
-		assertTrue(targets.contains(board.getCell(2, 3)));
 		assertTrue(targets.contains(board.getCell(3, 0)));
-		assertTrue(targets.contains(board.getCell(3, 2)));
 
 	}
 	

@@ -70,6 +70,7 @@ public class IntBoard {
 	}
 	
 	public void calcTargets(BoardCell startCell, int pathLength){
+		targets = new HashSet<BoardCell>();
 		visited = new HashSet<BoardCell>();
 		visited.add(startCell);
 		
