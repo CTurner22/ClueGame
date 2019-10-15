@@ -1,0 +1,6 @@
+Casey Turner, Murat Tuter
+
+Test Legend: We made sure to test common rooms like kitchen and conservatory AND our unique rooms like game room.
+Test Door Direction: We test each direction, and one situation where both doors are in the same room.
+Test Door Number: We just test for our 20 doors
+Test Room Initials: We once again test the initial of common rooms K and C, but also our unique initials.

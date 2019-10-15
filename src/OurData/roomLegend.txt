@@ -1,0 +1,11 @@
+C, Conservatory, Card
+K, Kitchen, Card
+B, Ballroom, Card
+G, Game room, Card
+L, Library, Card
+O, Office, Card
+D, Dining room, Card
+U, Lounge, Card
+E, Entryway, Card
+X, Closet, Other
+W, Walkway, Other

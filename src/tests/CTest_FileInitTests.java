@@ -17,7 +17,6 @@ import org.junit.Test;
 import clueGame.Board;
 import clueGame.BoardCell;
 import clueGame.DoorDirection;
-import experiment.IntBoard;
 
 public class CTest_FileInitTests {
 	// Constants that I will use to test whether the file was loaded correctly
