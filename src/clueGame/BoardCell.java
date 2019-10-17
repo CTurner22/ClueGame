@@ -9,25 +9,38 @@ public class BoardCell {
 
 	public int row;
 	public int column;
+	public char room;
+	public DoorDirection door;
+
+	
 	
 	public BoardCell(int r, int c) {
 		row = r;
 		column = c;
+		door = DoorDirection.NA;
+	}
+	
+	public BoardCell(int r, int c, char rm) {
+		row = r;
+		column = c;
+		room = rm;
+		door = DoorDirection.NA;
+	}
+	
+	public void setDoor(DoorDirection d) {
+		door = d;
 	}
 
 	public boolean isDoorway() {
-		// TODO Auto-generated method stub
-		return false;
+		return door != DoorDirection.NA;
 	}
 
-	public Object[] getDoorDirection() {
-		// TODO Auto-generated method stub
-		return null;
+	public DoorDirection getDoorDirection() {
+		return door;
 	}
 
-	public Object getInitial() {
-		// TODO Auto-generated method stub
-		return null;
+	public char getInitial() {
+		return room;
 	}
 
 }
