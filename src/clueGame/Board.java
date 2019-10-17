@@ -50,8 +50,9 @@ public class Board {
 	}
 
 	public void initialize(){
+		
+		//catch errors here 
 		try {
-			
 			
 			legend = new HashMap<Character, String>();
 			loadRoomConfig();
@@ -90,6 +91,7 @@ public class Board {
 		
 		String row;
 
+		// parse each line
 		while (sc.hasNextLine()) {
 			row = sc.nextLine();
 		    String[] data = row.split(",");
@@ -104,11 +106,8 @@ public class Board {
 		     if (!(data[2].contains("Other") || data[2].contains("Card"))) {
 		    	 throw new BadConfigFormatException("bad room category");
 		     }
-		    
-		    
 		}
 
-			    
 	}
 
 
@@ -121,6 +120,7 @@ public class Board {
 	    int columnNum = 0;
 	    int outerColumnNumber = -1;
 
+	    // parse each line
 		while (sc.hasNextLine()) {
 			row = sc.nextLine();
 		    String[] data = row.split(",");
@@ -128,6 +128,7 @@ public class Board {
 		    columnNum = 0;
 		    for( String x:data) {
 		    	
+		    	// test for legend layout room miss match
 		    	if(!legend.containsKey(x.charAt(0))) {
 		    		throw new BadConfigFormatException("Legend and Layout room inconsistancy");
 		    	}
@@ -138,6 +139,7 @@ public class Board {
 		    		char direction = x.charAt(1);
 		    		DoorDirection door;
 		    		
+		    		//switch to go between input char and enum
 		    		switch(direction) {
 		    		case 'L':
 		    			door = DoorDirection.LEFT;
@@ -162,6 +164,7 @@ public class Board {
 		    	columnNum++;
 		    }
 		    
+		    // test for weird column sizes 
 		    if(outerColumnNumber >= 0 && columnNum != outerColumnNumber) {
 		    	throw new BadConfigFormatException("Column inconsistancy");
 		    } else {
