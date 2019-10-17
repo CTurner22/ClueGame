@@ -17,7 +17,7 @@ public class BadConfigFormatException extends Exception {
 		
 			super("Bad Configuration File");
 			
-			// open logging file
+			// open logging file for EC
 			FileWriter writer = null;
 			try {
 				writer = new FileWriter("logfile.txt",true);
@@ -35,7 +35,7 @@ public class BadConfigFormatException extends Exception {
 			
 			super(errmsg);
 			
-			// open logging file
+			// open logging file for EC
 			FileWriter writer = null;
 			try {
 				writer = new FileWriter("logfile.txt",true);
