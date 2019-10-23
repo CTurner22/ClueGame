@@ -14,7 +14,6 @@ import org.junit.Test;
 
 import clueGame.Board;
 import clueGame.BoardCell;
-<<<<<<< HEAD
 
 public class BoardAdjTargetTests {
 	// We make the Board static because we can load it one time and 
@@ -32,8 +31,7 @@ public class BoardAdjTargetTests {
 
 
 	@Test
-	public void testAdjacenciesInsideRooms()
-	{
+	public void testAdjacenciesInsideRooms(){
 		// Test a corner
 		Set<BoardCell> testList = board.getAdjList(24, 24);
 		assertEquals(0, testList.size());
@@ -57,10 +55,8 @@ public class BoardAdjTargetTests {
 	// Ensure that the adjacency list from a doorway is only the
 	// walkway. NOTE: This test could be merged with door 
 	// direction test. 
-	// These tests are PURPLE on the planning spreadsheet
 	@Test
-	public void testAdjacencyRoomExit()
-	{
+	public void testAdjacencyRoomExit(){
 		// TEST DOORWAY RIGHT 
 		Set<BoardCell> testList = board.getAdjList(3, 4);
 		assertEquals(1, testList.size());
@@ -85,10 +81,8 @@ public class BoardAdjTargetTests {
 	}
 	
 	// Test adjacency at entrance to rooms
-	// These tests are GREEN in planning spreadsheet
 	@Test
-	public void testAdjacencyDoorways()
-	{
+	public void testAdjacencyDoorways(){
 		// Test beside a door direction RIGHT
 		Set<BoardCell> testList = board.getAdjList(9, 9);
 		assertTrue(testList.contains(board.getCellAt(9, 8)));
@@ -118,10 +112,8 @@ public class BoardAdjTargetTests {
 	}
 
 	// Test a variety of walkway scenarios
-	// These tests are LIGHT PURPLE on the planning spreadsheet
 	@Test
-	public void testAdjacencyWalkways()
-	{
+	public void testAdjacencyWalkways(){
 		// Test on top edge of board, just one walkway piece
 		Set<BoardCell> testList = board.getAdjList(0, 6);
 		assertTrue(testList.contains(board.getCellAt(0, 7)));
@@ -167,56 +159,12 @@ public class BoardAdjTargetTests {
 		assertTrue(testList.contains(board.getCellAt(5, 4)));
 		assertTrue(testList.contains(board.getCellAt(6, 3)));
 		assertEquals(3, testList.size());
-=======
-/*
- * Test for board adjancencies 
- * Casey Turner, Murat Tuter
- * 
- */
-
-public class BoardAdjTargetTests {
-
-	
-	private static Board board;
-	@BeforeClass
-	public static void setUp() {
-		board = Board.getInstance();
-		board.setConfigFiles("src/OurData/clueGameLayout.csv", "src/OurData/roomLegend.txt");		
-		board.initialize();
 	}
-
-	// Ensure that player does not move around within room
-	@Test
-	public void testAdjacenciesInsideRooms() {
-	
-	}
-
-	// Ensure that the adjacency list from a doorway is only the
-	// walkway. 
-	@Test
-	public void testAdjacencyRoomExit(){
-
-	}
-	
-	// Test adjacency at entrance to rooms
-	@Test
-	public void testAdjacencyDoorways(){
-		
-	}
-
-	// Test a variety of walkway scenarios
-	@Test
-	public void testAdjacencyWalkways(){
->>>>>>> 754ba466ab33d8aa25c946b19ef0cf2c8debe3c3
-	}
-	
 	
 	// Tests of just walkways, 1 step, includes on edge of board
 	// and beside room
 	// Have already tested adjacency lists on all four edges, will
 	// only test two edges here
-<<<<<<< HEAD
-	// These are LIGHT BLUE on the planning spreadsheet
 	@Test
 	public void testTargetsOneStep() {
 		board.calcTargets(21, 7, 1);
@@ -234,7 +182,6 @@ public class BoardAdjTargetTests {
 	}
 	
 	// Tests of just walkways, 2 steps
-	// These are LIGHT BLUE on the planning spreadsheet
 	@Test
 	public void testTargetsTwoSteps() {
 		board.calcTargets(16, 5, 3);
@@ -252,7 +199,6 @@ public class BoardAdjTargetTests {
 	}
 	
 	// Tests of just walkways, 4 steps
-	// These are LIGHT BLUE on the planning spreadsheet
 	@Test
 	public void testTargetsFourSteps() {
 		board.calcTargets(21, 7, 4);
@@ -274,8 +220,6 @@ public class BoardAdjTargetTests {
 	}	
 	
 	// Tests of just walkways plus one door, 6 steps
-	// These are LIGHT BLUE on the planning spreadsheet
-
 	@Test
 	public void testTargetsSixSteps() {
 		board.calcTargets(14, 0, 6);
@@ -291,11 +235,8 @@ public class BoardAdjTargetTests {
 	}	
 	
 	// Test getting into a room
-	// These are LIGHT BLUE on the planning spreadsheet
-
 	@Test 
-	public void testTargetsIntoRoom()
-	{
+	public void testTargetsIntoRoom(){
 		// One room is exactly 2 away
 		board.calcTargets(17, 16, 2);
 		Set<BoardCell> targets= board.getTargets();
@@ -313,10 +254,8 @@ public class BoardAdjTargetTests {
 	}
 	
 	// Test getting into room, doesn't require all steps
-	// These are LIGHT BLUE on the planning spreadsheet
 	@Test
-	public void testTargetsIntoRoomShortcut() 
-	{
+	public void testTargetsIntoRoomShortcut()  {
 		board.calcTargets(12, 7, 3);
 		Set<BoardCell> targets= board.getTargets();
 		assertEquals(12, targets.size());
@@ -338,49 +277,13 @@ public class BoardAdjTargetTests {
 		assertTrue(targets.contains(board.getCellAt(10, 6)));		
 		// 
 		assertTrue(targets.contains(board.getCellAt(11, 7)));		
-		assertTrue(targets.contains(board.getCellAt(12, 8)));		
-=======
-	@Test
-	public void testTargetsOneStep() {
-				
-	}
-	
-	// Tests of just walkways, 2 steps
-	@Test
-	public void testTargetsTwoSteps() {
-	
-	}
-	
-	// Tests of just walkways, 4 steps
-	@Test
-	public void testTargetsFourSteps() {
-	}	
-	
-	// Tests of just walkways plus one door, 6 steps
-	@Test
-	public void testTargetsSixSteps() {
-
-	}	
-	
-	// Test getting into a room
-	@Test 
-	public void testTargetsIntoRoom(){
-		
-	}
-	
-	// Test getting into room, doesn't require all steps
-	@Test
-	public void testTargetsIntoRoomShortcut() {
->>>>>>> 754ba466ab33d8aa25c946b19ef0cf2c8debe3c3
-		
+		assertTrue(targets.contains(board.getCellAt(12, 8)));	
 	}
 
 	// Test getting out of a room
-<<<<<<< HEAD
 	// These are LIGHT BLUE on the planning spreadsheet
 	@Test
-	public void testRoomExit()
-	{
+	public void testRoomExit() {
 		// Take one step, essentially just the adj list
 		board.calcTargets(4, 20, 1);
 		Set<BoardCell> targets= board.getTargets();
@@ -394,10 +297,6 @@ public class BoardAdjTargetTests {
 		assertTrue(targets.contains(board.getCellAt(3, 19)));
 		assertTrue(targets.contains(board.getCellAt(5, 19)));
 		assertTrue(targets.contains(board.getCellAt(4, 18)));
-=======
-	@Test
-	public void testRoomExit(){
->>>>>>> 754ba466ab33d8aa25c946b19ef0cf2c8debe3c3
 	}
 
 }

@@ -66,7 +66,8 @@ public class Board {
 		}
 
 
-	}
+	}		// TODO Auto-generated method stub
+
 
 	public Map<Character, String> getLegend() {
 		return legend;
@@ -181,8 +182,7 @@ public class Board {
 	}
 
 	public Set<BoardCell> getAdjList(int i, int j) {
-		// TODO Auto-generated method stub
-		return null;
+		return adjacencies.get(grid[i][j]);
 	}
 
 	public void calcTargets(int i, int j, int k) {
@@ -191,8 +191,7 @@ public class Board {
 	}
 
 	public Set<BoardCell> getTargets() {
-		// TODO Auto-generated method stub
-		return null;
+		return targets;
 	}
 
 
