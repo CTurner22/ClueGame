@@ -2,6 +2,7 @@ package tests;
 
 import static org.junit.Assert.*;
 
+import java.io.FileNotFoundException;
 import java.util.Map;
 
 import org.junit.Assert;
@@ -20,8 +21,8 @@ import clueGame.DoorDirection;
 public class InputBoardTests {
 
 	public static final int LEGEND_SIZE = 11;
-	public static final int NUM_ROWS = 24;
-	public static final int NUM_COLUMNS = 24;
+	public static final int NUM_ROWS = 25;
+	public static final int NUM_COLUMNS = 25;
 
 	private static Board board;
 	
@@ -29,7 +30,7 @@ public class InputBoardTests {
 	public static void setUp() {
 		
 		board = Board.getInstance();
-		board.setConfigFiles("OurData/clueGameLayout.csv", "OurData/roomLegend.txt");		
+		board.setConfigFiles("src/OurData/clueGameLayout.csv", "src/OurData/roomLegend.txt");		
 		board.initialize();
 	}
 	
@@ -72,7 +73,7 @@ public class InputBoardTests {
 		assertTrue(room.isDoorway());
 		assertEquals(DoorDirection.LEFT, room.getDoorDirection());
 		
-		room = board.getCellAt(9, 23);
+		room = board.getCellAt(8, 23);
 		assertTrue(room.isDoorway());
 		assertEquals(DoorDirection.UP, room.getDoorDirection());
 		
@@ -104,7 +105,7 @@ public class InputBoardTests {
 		// Test first cell in room
 		assertEquals('O', board.getCellAt(0, 0).getInitial());
 		assertEquals('E', board.getCellAt(0, 7).getInitial());
-		assertEquals('G', board.getCellAt(0, 10).getInitial());
+		assertEquals('G', board.getCellAt(10, 0).getInitial());
 		
 		// Test last cell in room
 		assertEquals('O', board.getCellAt(6, 4).getInitial());
