@@ -244,7 +244,7 @@ public class Board {
 		    		DoorDirection door;
 		    		
 		    		//switch to go between input char and enum
-		    		switch(direction) {
+		    		switch(Character.toUpperCase(direction)) {
 		    		case 'L':
 		    			door = DoorDirection.LEFT;
 		    			break;
