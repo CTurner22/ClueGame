@@ -56,8 +56,8 @@ public class BoardCell {
 				return (column == loc.column + 1);
 			default:
 				return false;
-		
 		}
+		
 	}
 
 	public boolean isWalkway() {
