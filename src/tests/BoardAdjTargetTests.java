@@ -22,7 +22,7 @@ public class BoardAdjTargetTests {
 	@BeforeClass
 	public static void setUp() {
 		board = Board.getInstance();
-		board.setConfigFiles("src/ProffessorData/CTest_ClueLayout.csv", "src/ProffessorData/CTest_ClueLegend.txt");		
+		board.setConfigFiles("src/OurData/clueGameLayout.csv", "src/OurData/roomLegend.txt");		
 		board.initialize();
 	}
 
@@ -66,7 +66,7 @@ public class BoardAdjTargetTests {
 		//TEST DOORWAY DOWN
 		testList = board.getAdjList(16, 3);
 		assertEquals(1, testList.size());
-		assertTrue(testList.contains(board.getCellAt(17, 13)));
+		assertTrue(testList.contains(board.getCellAt(17, 3)));
 		//TEST DOORWAY UP
 		testList = board.getAdjList(10, 1);
 		assertEquals(1, testList.size());
@@ -200,7 +200,7 @@ public class BoardAdjTargetTests {
 	// Tests of just walkways, 3 steps
 	// darker darker pink
 	@Test
-	public void testTargetsFourSteps() {
+	public void testTargetsThreeSteps() {
 		board.calcTargets(17, 0, 3);
 		Set<BoardCell> targets= board.getTargets();
 		assertEquals(5, targets.size());
@@ -215,21 +215,21 @@ public class BoardAdjTargetTests {
 	// Tests of just walkways plus one door, 5 steps
 	// Color : darker darker darker pink
 	@Test
-	public void testTargetsSixSteps() {
+	public void testTargetsFiveSteps() {
 		board.calcTargets(0, 5, 5);
 		Set<BoardCell> targets= board.getTargets();
 		assertEquals(7, targets.size());
 		assertTrue(targets.contains(board.getCellAt(3, 4)));
-		assertTrue(targets.contains(board.getCellAt(4, 5)));	
+		assertTrue(targets.contains(board.getCellAt(5, 5)));	
 		assertTrue(targets.contains(board.getCellAt(4, 6)));	
 		assertTrue(targets.contains(board.getCellAt(1, 5)));	
 		assertTrue(targets.contains(board.getCellAt(2, 6)));	
 		assertTrue(targets.contains(board.getCellAt(3, 5)));	
-		assertTrue(targets.contains(board.getCellAt(3, 6)));	
+		assertTrue(targets.contains(board.getCellAt(0, 6)));	
 	}	
 	
 	// Test getting into a room
-	// 
+	// color : purple
 	@Test 
 	public void testTargetsIntoRoom(){
 		// One room is exactly 2 away
@@ -239,11 +239,12 @@ public class BoardAdjTargetTests {
 
 		assertTrue(targets.contains(board.getCellAt(3, 12)));
 		assertTrue(targets.contains(board.getCellAt(2, 13)));
-		assertTrue(targets.contains(board.getCellAt(4, 14)));
+		assertTrue(targets.contains(board.getCellAt(4, 13)));
 		assertTrue(targets.contains(board.getCellAt(1, 14)));
 		assertTrue(targets.contains(board.getCellAt(5, 14)));
 		assertTrue(targets.contains(board.getCellAt(2, 15)));
-		assertTrue(targets.contains(board.getCellAt(5, 15)));
+		assertTrue(targets.contains(board.getCellAt(4, 15)));
+
 	}
 	
 	// Test getting into room, doesn't require all steps
