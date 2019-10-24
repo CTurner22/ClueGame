@@ -164,6 +164,7 @@ public class Board {
 	}
 	
 
+	// getters
 	public Map<Character, String> getLegend() {
 		return legend;
 	}
