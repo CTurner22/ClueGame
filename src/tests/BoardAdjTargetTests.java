@@ -1,13 +1,7 @@
 package tests;
 
-/*
- * This program tests that adjacencies and targets are calculated correctly.
- */
-
 import java.util.Set;
 
-//Doing a static import allows me to write assertEquals rather than
-//assertEquals
 import static org.junit.Assert.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -16,15 +10,14 @@ import clueGame.Board;
 import clueGame.BoardCell;
 
 public class BoardAdjTargetTests {
-	// We make the Board static because we can load it one time and 
-	// then do all the tests. 
+
 	private static Board board;
 	@BeforeClass
 	public static void setUp() {
 		// Board is singleton, get the only instance
 		board = Board.getInstance();
 		// set the file names to use my config files
-		board.setConfigFiles("CTest_ClueLayout.csv", "CTest_ClueLegend.txt");		
+		board.setConfigFiles("src/OurData/clueGameLayout.csv", "src/OurData/roomLegend.txt");		
 		// Initialize will load BOTH config files 
 		board.initialize();
 	}

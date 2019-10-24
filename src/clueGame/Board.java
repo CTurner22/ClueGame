@@ -3,9 +3,11 @@ package clueGame;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+
 
 
 /*
@@ -64,10 +66,102 @@ public class Board {
 		} catch(Exception e){
 			System.err.println(e.getMessage());
 		}
+		
+		//initialize adj lists
+		calcAdjacencies();
 
+	}
 
-	}		// TODO Auto-generated method stub
+	public void calcTargets(int i, int j, int pathLength) {
+		targets = new HashSet<BoardCell>();
+		visited = new HashSet<BoardCell>();
+		visited.add(grid[i][j]);
+		
+		// kick off recursive algo
+		findTargets(grid[i][j], pathLength);		
+	}
+	
+	public void findTargets(BoardCell startCell, int pathLength){
+			
+			// loop through adj cells
+			for(BoardCell nextTo : adjacencies.get(startCell)) {
+				
+				// skip if visited
+				if (visited.contains(nextTo)) {
+					continue;
+				}
+				
+				// visit
+				visited.add(nextTo);
+				
+				if (pathLength == 1 || nextTo.isDoorway()) {
+					//found target
+					targets.add(nextTo);
+				} else {
+					//recurse
+					findTargets(nextTo, pathLength-1);
+				}
+				
+				visited.remove(nextTo);
+			}
+			
+			visited.add(startCell);
+			
+		}
 
+	void calcAdjacencies() {
+		adjacencies = new HashMap<BoardCell, Set<BoardCell>>();
+		
+		// loop through each spot in the grid and get adj cells 
+		for (int i=0; i < numRows; i++) {
+			for (int j=0; j < numColumns; j++) {
+				
+				BoardCell loc = grid[i][j];
+				
+				Set<BoardCell> temp = new HashSet<BoardCell>();
+				
+				// make sure its a valid location
+				if( loc.isDoorway() || loc.isWalkway()) {
+					tryInsert(i-1, j, temp, loc);
+					tryInsert(i+1, j, temp, loc);
+					tryInsert(i, j-1, temp, loc);
+					tryInsert(i, j+1, temp, loc);
+				}
+
+				// save it
+				adjacencies.put(loc, temp);
+			}
+		}
+		
+	}
+	
+	// helper for catching out of bounds of grid and non valid locations
+	public void tryInsert(int i, int j, Set<BoardCell> temp, BoardCell originalLoc) {
+		
+		// catch out of bounds
+		if(i >= numRows || j >= numColumns) {
+			return;
+		}
+		
+		if(i < 0 || j < 0) {
+			return;
+		}
+		
+		// handle exiting door
+		if(originalLoc.isDoorway()) {
+			if(originalLoc.allowsEntryFrom(grid[i][j]) && grid[i][j].isWalkway() ) {
+				temp.add(grid[i][j]);
+			}
+			return;
+		}
+		
+		// only catch walkways and doors
+		if (grid[i][j].isWalkway()|| grid[i][j].allowsEntryFrom(originalLoc)) {
+			temp.add(grid[i][j]);
+		}
+	}
+	
+	
 
 	public Map<Character, String> getLegend() {
 		return legend;
@@ -119,7 +213,7 @@ public class Board {
 		String row;
 		int rowNum = 0;
 	    int columnNum = 0;
-	    int outerColumnNumber = -1;
+	    int outerColumnNumber = -1;					
 
 	    // parse each line
 		while (sc.hasNextLine()) {
@@ -185,10 +279,7 @@ public class Board {
 		return adjacencies.get(grid[i][j]);
 	}
 
-	public void calcTargets(int i, int j, int k) {
-		// TODO Auto-generated method stub
-		
-	}
+
 
 	public Set<BoardCell> getTargets() {
 		return targets;

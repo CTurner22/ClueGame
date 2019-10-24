@@ -43,4 +43,27 @@ public class BoardCell {
 		return room;
 	}
 
+	public boolean allowsEntryFrom(BoardCell loc) {
+		
+		switch(door) {
+			case DOWN: 
+				return (row == loc.row - 1);
+			case UP:
+				return (row == loc.row + 1);
+			case RIGHT:
+				return (column == loc.column - 1);
+			case LEFT:
+				return (column == loc.column + 1);
+			default:
+				return false;
+		
+		}
+	}
+
+	public boolean isWalkway() {
+		// This should be based on CARD or OTHER for universal standard not hardcoded 'W', but currently no better way to tell difference in 
+		// walkways and closets	
+		return room == 'W';
+	}
+
 }
