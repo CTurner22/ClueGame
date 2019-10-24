@@ -181,6 +181,7 @@ public class Board {
 		return grid[i][j];
 	}
 
+	// loads in the LEGEND config file
 	public void loadRoomConfig() throws FileNotFoundException, BadConfigFormatException {
 		
 		File file = new File(legendFile); 
@@ -214,7 +215,7 @@ public class Board {
 
 	}
 
-
+	// Loads in the BOARD Config
 	public void loadBoardConfig() throws FileNotFoundException, BadConfigFormatException {
 		File file = new File(layoutFile); 
 		Scanner sc = new Scanner(file); 
