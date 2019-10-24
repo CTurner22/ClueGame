@@ -46,10 +46,10 @@ public class Board {
 	}
 
 
-	public void setConfigFiles(String lout, String lgn) {
+	public void setConfigFiles(String boardFile, String lgnFile) {
 		
-		layoutFile = path + lout;
-		legendFile = path + lgn;
+		layoutFile = path + boardFile;
+		legendFile = path + lgnFile;
 
 	}
 
@@ -71,7 +71,7 @@ public class Board {
 		
 		//initialize adj lists
 		calcAdjacencies();
-
+		
 	}
 
 	public void calcTargets(int i, int j, int pathLength) {
