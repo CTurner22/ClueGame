@@ -30,7 +30,7 @@ public class InputBoardTests {
 	public static void setUp() {
 		
 		board = Board.getInstance();
-		board.setConfigFiles("src/OurData/clueGameLayout.csv", "src/OurData/roomLegend.txt");		
+		board.setConfigFiles("clueGameLayout.csv", "roomLegend.txt");		
 		board.initialize();
 	}
 	

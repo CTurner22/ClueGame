@@ -22,6 +22,8 @@ public class Board {
 	private int numRows;
 	private int numColumns;
 	
+	public final String path = "src/Data/";
+	
 	private String layoutFile;
 	private String legendFile;
 	
@@ -46,8 +48,8 @@ public class Board {
 
 	public void setConfigFiles(String lout, String lgn) {
 		
-		layoutFile = lout;
-		legendFile = lgn;
+		layoutFile = path + lout;
+		legendFile = path + lgn;
 
 	}
 
