@@ -193,12 +193,19 @@ public class Board {
 			row = sc.nextLine();
 		    String[] data = row.split(",");
 		    
-		    try {
-		    	legend.put(data[0].trim().charAt(0), data[1].trim());
-		    } catch(Exception e) {
+		    if (data.length != 3) {
 		    	throw new BadConfigFormatException("Incorrect legend file format");
 		    }
 		    
+		    if (data[0].trim() == "") {
+		    	throw new BadConfigFormatException("Incorrect legend file format");
+		    }
+		    
+		    char symbol = data[0].trim().charAt(0);
+		    String name = data[1].trim();
+	    	legend.put(symbol, name);
+
+	    	
 		    // Do something with the card or other classification here
 		     if (!(data[2].contains("Other") || data[2].contains("Card"))) {
 		    	 throw new BadConfigFormatException("bad room category");
