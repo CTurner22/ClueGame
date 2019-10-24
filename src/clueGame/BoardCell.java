@@ -7,12 +7,11 @@ package clueGame;
  */
 public class BoardCell {
 
-	public int row;
-	public int column;
-	public char room;
-	public DoorDirection door;
+	private int row;
+	private int column;
+	private char room;
+	private DoorDirection door;
 
-	
 	
 	public BoardCell(int r, int c) {
 		row = r;

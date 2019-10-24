@@ -163,7 +163,6 @@ public class Board {
 		}
 	}
 	
-	
 
 	public Map<Character, String> getLegend() {
 		return legend;
@@ -290,10 +289,8 @@ public class Board {
 	}
 
 
-
 	public Set<BoardCell> getTargets() {
 		return targets;
 	}
-
 
 }
