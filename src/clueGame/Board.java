@@ -95,7 +95,27 @@ public class Board {
 		
 	}
 
-	private void loadWeapons() {
+	private void loadWeapons() throws FileNotFoundException, BadConfigFormatException {
+
+		File file = new File(weaponsFile); 
+		Scanner sc = new Scanner(file); 
+
+		
+		String line;
+
+		// parse each line
+		while (sc.hasNextLine()) {
+			line = sc.nextLine().trim();
+		    
+			//test for blank lines
+		    if (line == "") { 
+		    	throw new BadConfigFormatException("Incorrect weapon file format");
+		    }
+		    
+		    // save as a card
+		    deck.add(new Card(line, CardType.WEAPON));
+
+		}
 	}
 
 	private void loadPlayers() throws FileNotFoundException, BadConfigFormatException{
@@ -128,14 +148,18 @@ public class Board {
 		    int row = Integer.parseInt(data[3].trim());
 		    int column = Integer.parseInt(data[4].trim());
 
-		    // make either human or computer
+		    // make either human or computer and save as a player
 		    if(human) {
 		    	players.put(name, new HumanPlayer(name, color, row, column));
 		    } else {
 		    	players.put(name, new ComputerPlayer(name, color, row, column));
 		    }
-	    	
+		    
+		    
+		    // make the player card
+		    deck.add(new Card(name, CardType.PERSON));
 
+	    	
 		}
 
 	}
@@ -270,13 +294,20 @@ public class Board {
 		    
 		    char symbol = data[0].trim().charAt(0);
 		    String name = data[1].trim();
+		    
+		    // save the legend
 	    	legend.put(symbol, name);
 
 	    	
-		    // Do something with the card or other classification here
-		     if (!(data[2].contains("Other") || data[2].contains("Card"))) {
+		    // check if card and add if it is
+	    	// also throw error if its not card or other
+		     if (data[2].contains("Card")) {
+				 deck.add(new Card(name, CardType.ROOM));
+		     } else if (!data[2].contains("Other")) {
 		    	 throw new BadConfigFormatException("bad room category");
-		     }
+			 }
+		     
+
 		}
 
 	}

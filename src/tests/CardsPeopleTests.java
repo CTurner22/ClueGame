@@ -77,16 +77,22 @@ public class CardsPeopleTests {
 				switch(card.getType()){
 					case PERSON:
 						players++;
+						break;
 					case WEAPON:
 						weapons++;
+						break;
 					case ROOM:
 						rooms++;
 				}
+				
+				System.out.println(card.getName());
 				switch(card.getName()){
-					case "Mr. Mustard":
+					case "Colonel Mustard":
 						mustard = true;
+						break;
 					case "Rope":
 						rope = true;
+						break;
 					case "Kitchen":
 						kitchen = true;
 					default:
@@ -102,7 +108,7 @@ public class CardsPeopleTests {
 
 			// test correct number of each type of card
 
-			assertEquals(6, players);
+			assertEquals( 6, players);
 			assertEquals( 6, weapons);
 			assertEquals( 9, rooms);
 		}
