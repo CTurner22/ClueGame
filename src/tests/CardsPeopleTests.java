@@ -3,6 +3,7 @@ package tests;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.Vector;
 
 import static org.junit.Assert.*;
 
@@ -62,8 +63,7 @@ public class CardsPeopleTests {
 		// Test Loading in all cards
 		@Test
 		public void testLoadedCards(){
-			
-			Set<Card> testList = board.getDeck();
+			Vector<Card> testList = board.getDeck();
 			
 			// test size of deck
 			// 9 rooms + 6 players + 6 weapons
@@ -113,10 +113,12 @@ public class CardsPeopleTests {
 		
 		// Test dealing cards
 		@Test
-		public void testDeltCards(){
+		public void testDealingCards(){
+			
+			board.deal();
 			
 			Map<String, Player> players = board.getPlayers();
-			Set<Card> originalDeck = board.getDeck();
+			Vector<Card> originalDeck = board.getDeck();
 			
 			// evaluate deck
 			int cardsInHands = 0;
@@ -137,7 +139,7 @@ public class CardsPeopleTests {
 			}
 			
 			// test that all cards (beside the three for the solution) were dealt
-			assertEquals(cardsInHands, originalDeck.size()-3);
+			assertEquals(cardsInHands, originalDeck.size());
 
 
 			// test that all hands were roughly the same size

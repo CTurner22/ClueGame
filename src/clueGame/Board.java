@@ -2,12 +2,15 @@ package clueGame;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
-
+import java.util.Vector;
 
 
 /*
@@ -34,10 +37,11 @@ public class Board {
 	private Set<BoardCell> targets;
 	private BoardCell[][] grid;
 
-	private Map<Character, String> legend;
+	private Map<Character, String> legend;	
+
 	
 	private Map<String, Player> players;
-	private Set<Card> deck;
+	private Vector<Card> deck;
 
 	private Solution theCrime;
 	
@@ -58,7 +62,8 @@ public class Board {
 		this.roomFile = path + roomFile;
 
 	}
-	
+	// TODO Auto-generated method stub
+
 	public void setConfigFiles(String boardFile, String roomFile, String weaponsFile, String playersFile) {
 		
 		layoutFile = path + boardFile;
@@ -70,13 +75,13 @@ public class Board {
 
 	public void initialize(){
 		
-		//catch errors here 
+		// catch errors here 
 		try {
 			
 			legend = new HashMap<Character, String>();
 			grid = new BoardCell[MAX_BOARD_SIZE][MAX_BOARD_SIZE];
 			players = new HashMap<String, Player>();			
-			deck = new HashSet<Card>();
+			deck = new Vector<Card>();
 
 			loadRoomConfig();
 			loadBoardConfig();
@@ -88,11 +93,52 @@ public class Board {
 			System.err.println(e.getMessage());
 		}
 		
-		//initialize adj lists
+		// initialize adj lists
 		calcAdjacencies();
-		
 	}
+	
+	public void deal() {
 
+		// shuffle deck
+		Collections.shuffle(deck);
+		
+		Card tempPerson = deck.get(0), tempRoom = deck.get(0), tempWeapon = deck.get(0);
+		
+		// get three of each type of card
+        for(Card card : deck) {
+			switch(card.getType()){
+			case PERSON:
+				tempPerson = card;
+				break;
+			case WEAPON:
+				tempWeapon = card;
+				break;
+			case ROOM:
+				tempRoom = card;
+			}
+        }
+        
+        // create solution
+        theCrime = new Solution(tempPerson, tempRoom, tempWeapon);
+        
+        // remove from deck to not deal to players
+        deck.remove(tempPerson);
+        deck.remove(tempRoom);
+        deck.remove(tempWeapon);
+
+        // deal
+        int i = 0;
+        while(i < deck.size()) {
+        	for(Player person : players.values()) {
+        		if(i >= deck.size()) break;
+        		person.addToHand(deck.get(i));
+        		i++;
+        	}
+        }
+        
+    } 
+
+	
 	// loads weapons file
 	
 	private void loadWeapons() throws FileNotFoundException, BadConfigFormatException {
@@ -391,7 +437,7 @@ public class Board {
 		return players;
 	}
 
-	public Set<Card> getDeck() {
+	public Vector<Card> getDeck() {
 		return deck;
 	}
 
