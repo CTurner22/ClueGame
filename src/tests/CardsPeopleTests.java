@@ -85,7 +85,6 @@ public class CardsPeopleTests {
 						rooms++;
 				}
 				
-				System.out.println(card.getName());
 				switch(card.getName()){
 					case "Colonel Mustard":
 						mustard = true;
@@ -97,8 +96,6 @@ public class CardsPeopleTests {
 						kitchen = true;
 					default:
 				}
-				
-			
 			}
 			
 			// test deck contains Mr.Mustard, Rope, and Kitchen
@@ -112,5 +109,41 @@ public class CardsPeopleTests {
 			assertEquals( 6, weapons);
 			assertEquals( 9, rooms);
 		}
+		
+		
+		// Test dealing cards
+		@Test
+		public void testDeltCards(){
+			
+			Map<String, Player> players = board.getPlayers();
+			Set<Card> originalDeck = board.getDeck();
+			
+			// evaluate deck
+			int cardsInHands = 0;
+			int maxHand = 0;
+			int minHand = originalDeck.size();
+			for(Player person : players.values()) {
+				
+				// test that each card dealt is in the original deck
+				for(Card card : person.getHand()) {
+					assertTrue(originalDeck.contains(card));
+					cardsInHands++;
+				}
+				
+				if (person.getHand().size() > maxHand)
+					maxHand = person.getHand().size();
+				if (person.getHand().size() < minHand)
+					minHand = person.getHand().size();
+			}
+			
+			// test that all cards (beside the three for the solution) were dealt
+			assertEquals(cardsInHands, originalDeck.size()-3);
+
+
+			// test that all hands were roughly the same size
+			assertTrue((maxHand-minHand) <= 1);
+			
+		}
+		
 
 	}

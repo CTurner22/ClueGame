@@ -1,7 +1,5 @@
 package clueGame;
 
-import static org.junit.Assert.assertFalse;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
@@ -30,7 +28,6 @@ public class Board {
 	private String roomFile;
 	private String weaponsFile;
 	private String playersFile;
-
 	
 	private Map<BoardCell, Set<BoardCell>> adjacencies;
 	private Set<BoardCell> visited;
@@ -42,7 +39,8 @@ public class Board {
 	private Map<String, Player> players;
 	private Set<Card> deck;
 
-
+	private Solution theCrime;
+	
 	private static Board theInstance = new Board();
 	
 	// constructor is private to ensure only one can be created
@@ -95,6 +93,8 @@ public class Board {
 		
 	}
 
+	// loads weapons file
+	
 	private void loadWeapons() throws FileNotFoundException, BadConfigFormatException {
 
 		File file = new File(weaponsFile); 
@@ -118,6 +118,7 @@ public class Board {
 		}
 	}
 
+	//loads player file
 	private void loadPlayers() throws FileNotFoundException, BadConfigFormatException{
 
 		File file = new File(playersFile); 
@@ -172,7 +173,6 @@ public class Board {
 		// kick off recursive algo
 		findTargets(grid[i][j], pathLength);		
 	}
-	
 	public void findTargets(BoardCell startCell, int pathLength){
 			
 			// loop through adj cells
@@ -258,15 +258,12 @@ public class Board {
 	public Map<Character, String> getLegend() {
 		return legend;
 	}
-
 	public int getNumRows() {
 		return numRows;
 	}
-
 	public int getNumColumns() {
 		return numColumns;
 	}
-
 	public BoardCell getCellAt(int i, int j) {
 		return grid[i][j];
 	}
@@ -398,4 +395,4 @@ public class Board {
 		return deck;
 	}
 
-}
+	}
