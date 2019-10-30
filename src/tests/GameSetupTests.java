@@ -25,7 +25,7 @@ import clueGame.Player;
  * Casey Turner, Murat Tuter
  * 
  */
-public class CardsPeopleTests {
+public class GameSetupTests {
 
 		private static Board board;
 
