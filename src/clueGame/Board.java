@@ -25,7 +25,10 @@ public class Board {
 	public final String path = "src/Data/";
 	
 	private String layoutFile;
-	private String legendFile;
+	private String roomFile;
+	private String weaponsFile;
+	private String playersFile;
+
 	
 	private Map<BoardCell, Set<BoardCell>> adjacencies;
 	private Set<BoardCell> visited;
@@ -33,6 +36,9 @@ public class Board {
 	private BoardCell[][] grid;
 
 	private Map<Character, String> legend;
+	
+	private Map<String, Player> players;
+	private Set<Card> cards;
 
 
 	private static Board theInstance = new Board();
@@ -46,10 +52,19 @@ public class Board {
 	}
 
 
-	public void setConfigFiles(String boardFile, String lgnFile) {
+	public void setConfigFiles(String boardFile, String roomFile) {
 		
 		layoutFile = path + boardFile;
-		legendFile = path + lgnFile;
+		this.roomFile = path + roomFile;
+
+	}
+	
+	public void setConfigFiles(String boardFile, String roomFile, String weaponsFile, String playersFile) {
+		
+		layoutFile = path + boardFile;
+		this.roomFile = path + roomFile;
+		this.weaponsFile = path + boardFile;
+		this.playersFile = path + roomFile;
 
 	}
 
@@ -63,7 +78,6 @@ public class Board {
 			
 			grid = new BoardCell[MAX_BOARD_SIZE][MAX_BOARD_SIZE];
 			loadBoardConfig();
-
 			
 		} catch(Exception e){
 			System.err.println(e.getMessage());
@@ -184,7 +198,7 @@ public class Board {
 	// loads in the LEGEND config file
 	public void loadRoomConfig() throws FileNotFoundException, BadConfigFormatException {
 		
-		File file = new File(legendFile); 
+		File file = new File(roomFile); 
 		Scanner sc = new Scanner(file); 
 		
 		String row;
@@ -198,7 +212,7 @@ public class Board {
 		    	throw new BadConfigFormatException("Incorrect legend file format");
 		    }
 		    
-		    if (data[0].trim() == "") {
+		    if (data[0].trim() == "") { 
 		    	throw new BadConfigFormatException("Incorrect legend file format");
 		    }
 		    
@@ -292,6 +306,14 @@ public class Board {
 
 	public Set<BoardCell> getTargets() {
 		return targets;
+	}
+
+	public Map<String, Player> getPlayers() {
+		return players;
+	}
+
+	public Set<Card> getCards() {
+		return cards;
 	}
 
 }

@@ -8,20 +8,42 @@ import java.util.Random;
 
 public class Player {
 
-	private String PlayerName;
+	private String name;
+
 	private int row;
-	private int col;
+	private int column;
+
 	private Color color;
 	
+
+
 	public Player(String name, Color color, int row, int col) {
 		this.row = row;
-		this.PlayerName = name;
+		this.name = name;
 		this.color = color;
-		this.col = col;
+		this.column = col;
 	
 	}
-	public Card disproveSuggestion(suggestion) {
-
+	
+//	public Card disproveSuggestion(suggestion) {
+//
+//	}
+	
+	// getters
+	public String getName() {
+		return name;
 	}
+	public Color getColor() {
+		return color;
+	}
+	public int getRow() {
+		return row;
+	}
+
+	public int getColumn() {
+		return column;
+	}
+
+
 }
 
