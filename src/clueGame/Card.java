@@ -5,18 +5,19 @@ import java.util.HashSet;
 public class Card {
 
 
-	private String cardName;
+	private String name;
 	private CardType type;
 	
 	public Card(String name, CardType type) {
-		this.cardName = name;
+		this.name = name;
 		this.type = type;
 	}
-	public String getCardName() {
-		return this.cardName;
+
+	public CardType getType() {
+		return type;
+	}
+	public String getName() {
+		return name;
 	}
 
-	public boolean equals(Object obj) {
-
-	}
 }

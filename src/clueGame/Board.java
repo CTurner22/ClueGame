@@ -40,7 +40,7 @@ public class Board {
 	private Map<Character, String> legend;
 	
 	private Map<String, Player> players;
-	private Set<Card> cards;
+	private Set<Card> deck;
 
 
 	private static Board theInstance = new Board();
@@ -78,7 +78,7 @@ public class Board {
 			legend = new HashMap<Character, String>();
 			grid = new BoardCell[MAX_BOARD_SIZE][MAX_BOARD_SIZE];
 			players = new HashMap<String, Player>();			
-			cards = new HashSet<Card>();
+			deck = new HashSet<Card>();
 
 			loadRoomConfig();
 			loadBoardConfig();
@@ -355,7 +355,6 @@ public class Board {
 		return adjacencies.get(grid[i][j]);
 	}
 
-
 	public Set<BoardCell> getTargets() {
 		return targets;
 	}
@@ -364,8 +363,8 @@ public class Board {
 		return players;
 	}
 
-	public Set<Card> getCards() {
-		return cards;
+	public Set<Card> getDeck() {
+		return deck;
 	}
 
 }

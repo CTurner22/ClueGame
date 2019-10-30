@@ -11,9 +11,10 @@ import org.junit.Test;
 
 import clueGame.Board;
 import clueGame.BoardCell;
+import clueGame.Card;
 import clueGame.ComputerPlayer;
 import clueGame.HumanPlayer;
-import clueGame.ComputerPlayer;
+import clueGame.CardType;
 
 import clueGame.Player;
 
@@ -34,7 +35,6 @@ public class CardsPeopleTests {
 			board.setConfigFiles("clueGameLayout.csv", "roomLegend.txt", "weapons.txt", "players.txt");		
 			board.initialize();
 		}
-
 
 		// Test Loading in players
 		@Test
@@ -57,6 +57,54 @@ public class CardsPeopleTests {
 			assertEquals( 24, testList.get("Mr. Green").getRow());
 			assertEquals( 18, testList.get("Mr. Green").getColumn());
 			
+		}
+		
+		// Test Loading in all cards
+		@Test
+		public void testLoadedCards(){
+			
+			Set<Card> testList = board.getDeck();
+			
+			// test size of deck
+			// 9 rooms + 6 players + 6 weapons
+			assertEquals(21, testList.size());
+
+			// loop through and evaluate the deck
+			Boolean mustard = false, rope = false, kitchen = false;
+			int rooms = 0, players = 0, weapons= 0;
+			
+			for(Card card : testList) {
+				switch(card.getType()){
+					case PERSON:
+						players++;
+					case WEAPON:
+						weapons++;
+					case ROOM:
+						rooms++;
+				}
+				switch(card.getName()){
+					case "Mr. Mustard":
+						mustard = true;
+					case "Rope":
+						rope = true;
+					case "Kitchen":
+						kitchen = true;
+					default:
+				}
+				
+			
+			}
+			
+			// test deck contains Mr.Mustard, Rope, and Kitchen
+			assertTrue(mustard);
+			assertTrue(rope);
+			assertTrue(kitchen);
+
+			// test correct number of each type of card
+
+			assertEquals(6, players);
+			assertEquals( 6, weapons);
+			assertEquals( 9, rooms);
 		}
 
 	}
