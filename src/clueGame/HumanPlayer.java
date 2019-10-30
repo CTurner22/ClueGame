@@ -6,9 +6,8 @@ public class HumanPlayer extends Player {
 
 	private boolean isHuman = true;
 
-	public HumanPlayer(String name, Color color, int row, int col) {
-		super(name, color, row, col);
-		
+	public HumanPlayer(String nm, String c, int rw, int col) {
+		super(nm, c, rw, col);
 	}
 
 }

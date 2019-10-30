@@ -9,38 +9,33 @@ public class ComputerPlayer extends Player {
 
 	private boolean isHuman = false;
 	private Board board = Board.getInstance();
-	Guess accusation = null;
+//	Guess accusation = null;
 	
 	
-	
-
-	public ComputerPlayer(String name, Color color, int row, int col) {
+	public ComputerPlayer(String name, String color, int row, int col) {
 		super(name, color, row, col);
-		this.lastRoom = '#'; //Make it so there is no last room to start.
+		
+		//this.lastRoom = '#'; //Make it so there is no last room to start.
 		//The computer starts out not knowing any of the possible cards.
-		
 	}
 
-	
-	public BoardCell pickLocation(Set<BoardCell> targets) {
 
-
-	}
-	
-	public Guess makeAccusation() {
-
-	}
-	
-
-	public Guess createSuggestion() {
-		
-
-		
-	}
-	
-
-
-
+//	
+//	public BoardCell pickLocation(Set<BoardCell> targets) {
+//
+//
+//	}
+//	
+//	public Guess makeAccusation() {
+//
+//	}
+//	
+//
+//	public Guess createSuggestion() {
+//		
+//
+//		
+//	}
 	
 
 

@@ -13,11 +13,12 @@ public class Player {
 	private int row;
 	private int column;
 
-	private Color color;
+	// handle convert to actual color later
+	private String color;
 	
 
 
-	public Player(String name, Color color, int row, int col) {
+	public Player(String name, String color, int row, int col) {
 		this.row = row;
 		this.name = name;
 		this.color = color;
@@ -28,12 +29,13 @@ public class Player {
 //	public Card disproveSuggestion(suggestion) {
 //
 //	}
-	
+
+
 	// getters
 	public String getName() {
 		return name;
 	}
-	public Color getColor() {
+	public String getColor() {
 		return color;
 	}
 	public int getRow() {
@@ -43,6 +45,7 @@ public class Player {
 	public int getColumn() {
 		return column;
 	}
+
 
 
 }

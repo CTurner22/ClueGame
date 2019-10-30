@@ -1,5 +1,7 @@
 package clueGame;
 
+import static org.junit.Assert.assertFalse;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
@@ -63,8 +65,8 @@ public class Board {
 		
 		layoutFile = path + boardFile;
 		this.roomFile = path + roomFile;
-		this.weaponsFile = path + boardFile;
-		this.playersFile = path + roomFile;
+		this.weaponsFile = path + weaponsFile;
+		this.playersFile = path + playersFile;
 
 	}
 
@@ -74,10 +76,15 @@ public class Board {
 		try {
 			
 			legend = new HashMap<Character, String>();
-			loadRoomConfig();
-			
 			grid = new BoardCell[MAX_BOARD_SIZE][MAX_BOARD_SIZE];
+			players = new HashMap<String, Player>();			
+			cards = new HashSet<Card>();
+
+			loadRoomConfig();
 			loadBoardConfig();
+			loadPlayers();
+			loadWeapons();
+			
 			
 		} catch(Exception e){
 			System.err.println(e.getMessage());
@@ -86,6 +93,51 @@ public class Board {
 		//initialize adj lists
 		calcAdjacencies();
 		
+	}
+
+	private void loadWeapons() {
+	}
+
+	private void loadPlayers() throws FileNotFoundException, BadConfigFormatException{
+
+		File file = new File(playersFile); 
+		Scanner sc = new Scanner(file); 
+
+		
+		String line;
+
+		// parse each line
+		while (sc.hasNextLine()) {
+			line = sc.nextLine();
+			
+		    String[] data = line.split(",");
+		    
+		    if (data.length != 5) {
+		    	throw new BadConfigFormatException("Incorrect player file format");
+		    }
+		    
+		    if (data[0].trim() == "") { 
+		    	throw new BadConfigFormatException("Incorrect player file format");
+		    }
+		    
+		    // parse data
+		    Boolean human = data[2].trim().toLowerCase() == "human" ? true : false;
+
+		    String name = data[0].trim();
+		    String color = data[1].trim();
+		    int row = Integer.parseInt(data[3].trim());
+		    int column = Integer.parseInt(data[4].trim());
+
+		    // make either human or computer
+		    if(human) {
+		    	players.put(name, new HumanPlayer(name, color, row, column));
+		    } else {
+		    	players.put(name, new ComputerPlayer(name, color, row, column));
+		    }
+	    	
+
+		}
+
 	}
 
 	public void calcTargets(int i, int j, int pathLength) {
