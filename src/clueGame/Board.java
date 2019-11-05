@@ -442,8 +442,7 @@ public class Board {
 	}
 
 	public boolean checkAccusation(Solution testSolution) {
-		// TODO Auto-generated method stub
-		return false;
+		return testSolution.equals(theCrime);
 	}
 
 	public void setTheCrime(Solution actualSolution) {

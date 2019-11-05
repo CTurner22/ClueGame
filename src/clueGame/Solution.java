@@ -34,4 +34,12 @@ public class Solution {
 	public Card getMurderWeapon() {
 		return murderWeapon;
 	}
+	
+    public boolean equals(Object obj) {
+        if (obj != null && getClass() == obj.getClass()) {
+        	Solution q = (Solution)obj;
+            return murderer == q.murderer && crimeScene == q.crimeScene && murderWeapon == q.murderWeapon;
+        }
+        return false;
+    }
 }
