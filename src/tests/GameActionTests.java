@@ -1,6 +1,7 @@
 package tests;
 
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
@@ -254,4 +255,113 @@ public class GameActionTests {
 		
 	} 
 	
+	
+	/*
+	 * Test create suggestion 
+	 * 
+	 * room will be tested with each test
+	 */
+	
+	
+	// If only one weapon not seen, it's selected
+	@Test
+	public void testOneWeaponSuggestion() {
+		ComputerPlayer player = new ComputerPlayer("Buster", "Red", 22, 20);
+
+		Card weapon = null;
+
+		// get three of each type of card
+        for(Card card : board.getDeck()) {
+			switch(card.getType()){
+			case WEAPON:
+				player.addToSeen(weapon);
+				weapon = card;
+				break;
+			default:
+				player.addToSeen(card);
+			}
+        }
+        
+        // create solution
+        Solution suggestion =  player.createSuggestion();
+        
+        // check the room is the room player is in
+        assertEquals(suggestion.getCrimeScene().getName() , "Kitchen");
+        
+        //check the weapon is correct
+        assertEquals(suggestion.getMurderWeapon(), weapon);
+	} 
+	
+	// If only one person not seen, it's selected
+	@Test
+	public void testOnePersonSuggestion() {
+		ComputerPlayer player = new ComputerPlayer("Buster", "Red", 5, 19);
+
+		Card person = null;
+
+		// get three of each type of card
+        for(Card card : board.getDeck()) {
+			switch(card.getType()){
+			case PERSON:
+				player.addToSeen(person);
+				person = card;
+				break;
+			default:
+				player.addToSeen(card);
+			}
+        }
+        
+        // create solution
+        Solution suggestion =  player.createSuggestion();
+        
+        // check the room is the room player is in
+        assertEquals(suggestion.getCrimeScene().getName() , "Lounge");
+        
+        //check the person is correct
+        assertEquals(suggestion.getMurderWeapon(), person);
+	} 
+	
+	// test randomly selected from unseen
+	@Test
+	public void testRandomSuggestion() {
+		ComputerPlayer player = new ComputerPlayer("Buster", "Red", 5, 19);
+
+		Card person = null;
+		Map<Card,Boolean> unseenCards = new HashMap<Card, Boolean>();
+		int i = 0;
+		
+		// add half of cards to seen and half not
+        for(Card card : board.getDeck()) {
+        	i++;
+			switch(card.getType()){
+			case ROOM:
+				player.addToSeen(card);
+				break;
+			default:
+				if(i%2 == 0) {
+					unseenCards.put(card, false);
+				} else {
+					player.addToSeen(card);
+				}
+			}
+        }
+        
+			
+		// run suggestions alot to test random
+		for(int j = 0; j < 1000; j++) {
+	        // create solution
+	        Solution suggestion =  player.createSuggestion();
+	        
+	        unseenCards.put(suggestion.getMurderer(), true);
+	        unseenCards.put(suggestion.getMurderWeapon(), true);
+
+	        // check the room is the room player is in
+	        assertEquals(suggestion.getCrimeScene().getName() , "Lounge");
+		}
+		
+		// test each unseen person and weapon was suggested
+		for(Boolean seen: unseenCards.values()) {
+			assertTrue(seen);
+		}
+    }
 }

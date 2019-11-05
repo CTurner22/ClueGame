@@ -76,9 +76,21 @@ public class ComputerPlayer extends Player {
 
 
 	public void addToVisited(BoardCell cellAt) {
+		visited.add(cellAt);
+	}
+
+
+	public void addToSeen(Card weapon) {
 		// TODO Auto-generated method stub
 		
 	}
+
+
+	public Solution createSuggestion() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 
 //	
