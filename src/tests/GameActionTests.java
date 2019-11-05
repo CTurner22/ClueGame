@@ -18,6 +18,7 @@ import clueGame.HumanPlayer;
 import clueGame.CardType;
 
 import clueGame.Player;
+import clueGame.Solution;
 
 
 /*
@@ -121,5 +122,136 @@ public class GameActionTests {
 
 	}
 	
+	/*
+	 * Test accusations
+	 */
+	// test correct one
+	@Test
+	public void testCorrectAccusation() {
+		Card murderer = null;
+		Card crimeScene = null;
+		Card murderWeapon = null;
+
+		// get three of each type of card
+        for(Card card : board.getDeck()) {
+			switch(card.getType()){
+			case PERSON:
+				murderer = card;
+				break;
+			case WEAPON:
+				murderWeapon = card;
+				break;
+			case ROOM:
+				crimeScene = card;
+			}
+        }
+        
+        // create solution
+		Solution testSolution = new Solution(murderer, crimeScene, murderWeapon);
+		Solution actualSolution = new Solution(murderer, crimeScene, murderWeapon);
+
+		board.setTheCrime(actualSolution);
+		
+		assertTrue(board.checkAccusation(testSolution));
+		
+	}    
+	
+	//test wrong person
+	@Test
+	public void testWrongPersonAccusation() {
+		Card murderer = null;
+		Card wrongMurderer = null;
+		Card crimeScene = null;
+		Card murderWeapon = null;
+
+		// get three of each type of card
+        for(Card card : board.getDeck()) {
+			switch(card.getType()){
+			case PERSON:
+				wrongMurderer = murderer;
+				murderer = card;
+				break;
+			case WEAPON:
+				murderWeapon = card;
+				break;
+			case ROOM:
+				crimeScene = card;
+			}
+        }
+        
+        // create solution
+		Solution testSolution = new Solution(wrongMurderer, crimeScene, murderWeapon);
+		Solution actualSolution = new Solution(murderer, crimeScene, murderWeapon);
+
+		board.setTheCrime(actualSolution);
+		
+		assertFalse(board.checkAccusation(testSolution));
+		
+	} 
+	
+	// test wrong weapon
+	@Test
+	public void testWrongWeaponAccusation() {
+		Card murderer = null;
+		Card wrongWeapon = null;
+		Card crimeScene = null;
+		Card murderWeapon = null;
+
+		// get three of each type of card
+        for(Card card : board.getDeck()) {
+			switch(card.getType()){
+			case PERSON:
+				murderer = card;
+				break;
+			case WEAPON:
+				wrongWeapon = murderWeapon;
+				murderWeapon = card;
+				break;
+			case ROOM:
+				crimeScene = card;
+			}
+        }
+        
+        // create solution
+		Solution testSolution = new Solution(murderer, crimeScene, wrongWeapon);
+		Solution actualSolution = new Solution(murderer, crimeScene, murderWeapon);
+
+		board.setTheCrime(actualSolution);
+		
+		assertFalse(board.checkAccusation(testSolution));
+		
+	} 
+	// test wrong room
+	@Test
+	public void testWrongRoomAccusation() {
+		Card murderer = null;
+		Card wrongRoom = null;
+		Card crimeScene = null;
+		Card murderWeapon = null;
+
+		// get three of each type of card
+        for(Card card : board.getDeck()) {
+			switch(card.getType()){
+			case PERSON:
+				murderer = card;
+				break;
+			case WEAPON:
+				murderWeapon = card;
+				break;
+			case ROOM:
+				wrongRoom = crimeScene;
+				crimeScene = card;
+			}
+        }
+        
+        // create solution
+		Solution testSolution = new Solution(murderer, wrongRoom, murderWeapon);
+		Solution actualSolution = new Solution(murderer, crimeScene, murderWeapon);
+
+		board.setTheCrime(actualSolution);
+		
+		assertFalse(board.checkAccusation(testSolution));
+		
+	} 
 	
 }

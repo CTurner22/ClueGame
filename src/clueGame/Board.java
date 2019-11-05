@@ -441,4 +441,13 @@ public class Board {
 		return deck;
 	}
 
+	public boolean checkAccusation(Solution testSolution) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public void setTheCrime(Solution actualSolution) {
+		theCrime = actualSolution;
+	}
+
 	}
