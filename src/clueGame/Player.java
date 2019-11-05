@@ -12,8 +12,8 @@ public class Player {
 
 	private String name;
 
-	private int row;
-	private int column;
+	protected int row;
+	protected int column;
 	private Set<Card> hand;
 	
 

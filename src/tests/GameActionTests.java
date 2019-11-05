@@ -270,16 +270,18 @@ public class GameActionTests {
 
 		Card weapon = null;
 
-		// get three of each type of card
+		// add all but one weapon to seen, and randomly add the rest
+		int i = 0;
         for(Card card : board.getDeck()) {
+        	i++;
 			switch(card.getType()){
 			case WEAPON:
 				player.addToSeen(weapon);
 				weapon = card;
 				break;
 			default:
-				player.addToSeen(card);
-			}
+				if(i%2 == 0)
+					player.addToSeen(card);			}
         }
         
         // create solution
@@ -299,15 +301,18 @@ public class GameActionTests {
 
 		Card person = null;
 
-		// get three of each type of card
+		// add all but one person to seen, and randomly add the rest
+		int i = 0;
         for(Card card : board.getDeck()) {
+        	i++;
 			switch(card.getType()){
 			case PERSON:
 				player.addToSeen(person);
 				person = card;
 				break;
 			default:
-				player.addToSeen(card);
+				if(i%2 == 0)
+					player.addToSeen(card);
 			}
         }
         
@@ -315,10 +320,10 @@ public class GameActionTests {
         Solution suggestion =  player.createSuggestion();
         
         // check the room is the room player is in
-        assertEquals(suggestion.getCrimeScene().getName() , "Lounge");
+        assertEquals(suggestion.getCrimeScene().getName() , "Library");
         
         //check the person is correct
-        assertEquals(suggestion.getMurderWeapon(), person);
+        assertEquals(suggestion.getMurderer(), person);
 	} 
 	
 	// test randomly selected from unseen
@@ -356,7 +361,7 @@ public class GameActionTests {
 	        unseenCards.put(suggestion.getMurderWeapon(), true);
 
 	        // check the room is the room player is in
-	        assertEquals(suggestion.getCrimeScene().getName() , "Lounge");
+	        assertEquals(suggestion.getCrimeScene().getName() , "Library");
 		}
 		
 		// test each unseen person and weapon was suggested

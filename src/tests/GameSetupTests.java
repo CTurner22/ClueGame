@@ -139,7 +139,7 @@ public class GameSetupTests {
 			}
 			
 			// test that all cards (beside the three for the solution) were dealt
-			assertEquals(cardsInHands, originalDeck.size());
+			assertEquals(cardsInHands, originalDeck.size() - 3);
 
 
 			// test that all hands were roughly the same size

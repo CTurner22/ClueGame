@@ -12,6 +12,8 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.Vector;
 
+import javax.lang.model.type.DeclaredType;
+
 
 /*
  * Board class
@@ -42,6 +44,7 @@ public class Board {
 	
 	private Map<String, Player> players;
 	private Vector<Card> deck;
+	private Map<Character, Card> roomCards;
 
 	private Solution theCrime;
 	
@@ -79,6 +82,7 @@ public class Board {
 		try {
 			
 			legend = new HashMap<Character, String>();
+			roomCards = new HashMap<Character, Card>();
 			grid = new BoardCell[MAX_BOARD_SIZE][MAX_BOARD_SIZE];
 			players = new HashMap<String, Player>();			
 			deck = new Vector<Card>();
@@ -135,6 +139,11 @@ public class Board {
         		i++;
         	}
         }
+        
+        // add back so computer knows what is can guess
+        deck.add(tempPerson);
+        deck.add(tempRoom);
+        deck.add(tempWeapon);
         
     } 
 
@@ -345,7 +354,9 @@ public class Board {
 		    // check if card and add if it is
 	    	// also throw error if its not card or other
 		     if (data[2].contains("Card")) {
-				 deck.add(new Card(name, CardType.ROOM));
+		    	 Card card = new Card(name, CardType.ROOM);
+				 deck.add(card);
+				 roomCards.put(symbol, card);
 		     } else if (!data[2].contains("Other")) {
 		    	 throw new BadConfigFormatException("bad room category");
 			 }
@@ -447,6 +458,10 @@ public class Board {
 
 	public void setTheCrime(Solution actualSolution) {
 		theCrime = actualSolution;
+	}
+
+	public Card getRoomCard(BoardCell cell) {
+		return roomCards.get(cell.getInitial());
 	}
 
 	}

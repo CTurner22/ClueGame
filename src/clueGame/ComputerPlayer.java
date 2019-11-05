@@ -2,6 +2,7 @@ package clueGame;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
@@ -14,6 +15,11 @@ public class ComputerPlayer extends Player {
 	private boolean isHuman = false;
 	private Board board = Board.getInstance();
 	private  Vector<BoardCell> visited;
+	private  Set<Card> roomsSeen;
+	private  Set<Card> peopleSeen;
+	private  Set<Card> weaponsSeen;
+
+
 //	Guess accusation = null;
 	
 	
@@ -21,6 +27,10 @@ public class ComputerPlayer extends Player {
 		super(name, color, row, col);
 		
 		visited = new Vector<BoardCell>(); 
+		roomsSeen = new HashSet<Card>();
+		peopleSeen = new HashSet<Card>();
+		weaponsSeen = new HashSet<Card>();
+
 
 		//this.lastRoom = '#'; //Make it so there is no last room to start.
 		//The computer starts out not knowing any of the possible cards.
@@ -28,7 +38,10 @@ public class ComputerPlayer extends Player {
 
 
 	public ComputerPlayer() {
-		visited = new Vector<BoardCell>(); 
+		visited = new Vector<BoardCell>();
+		roomsSeen = new HashSet<Card>();
+		peopleSeen = new HashSet<Card>();
+		weaponsSeen = new HashSet<Card>();
 	}
 
 
@@ -73,6 +86,32 @@ public class ComputerPlayer extends Player {
 			visited.remove(0);
 		}
 	}
+	
+	public Solution createSuggestion() {
+		Vector<Card> people = new Vector<Card>();
+		Vector<Card> weapons = new Vector<Card>();
+		Random random = new Random();
+
+		for(Card card: board.getDeck()) {
+			switch(card.getType()){
+			case PERSON:
+				if(!peopleSeen.contains(card)) {
+					people.add(card);
+				}
+				break;
+			case WEAPON:
+				if(!weaponsSeen.contains(card)) {
+					weapons.add(card);
+				}
+			}
+		}
+		
+		Card room = board.getRoomCard(board.getCellAt(row,column));
+		Card wpn = weapons.size() > 0 ? weapons.get(random.nextInt(weapons.size())) : weapons.get(0);
+		Card ppl = people.size() > 0 ? people.get(random.nextInt(people.size())) : people.get(0);
+		
+		return new Solution(ppl, room, wpn);
+	}
 
 
 	public void addToVisited(BoardCell cellAt) {
@@ -80,16 +119,23 @@ public class ComputerPlayer extends Player {
 	}
 
 
-	public void addToSeen(Card weapon) {
-		// TODO Auto-generated method stub
+	public void addToSeen(Card card) {
+		if(card == null) {
+			return;
+		}
 		
+		switch(card.getType()){
+		case PERSON:
+			peopleSeen.add(card);
+			break;
+		case WEAPON:
+			weaponsSeen.add(card);
+			break;
+		case ROOM:
+			roomsSeen.add(card);
+		}
 	}
 
-
-	public Solution createSuggestion() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 
 
