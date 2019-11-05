@@ -9,6 +9,7 @@ import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
 import java.util.Vector;
+import java.util.logging.Handler;
 
 public class ComputerPlayer extends Player {
 
@@ -138,7 +139,22 @@ public class ComputerPlayer extends Player {
 
 
 	public Card disproveSuggestion(Solution suggestion) {
-		return null;
+		Random random = new Random();
+		Vector<Card> matching = new Vector<Card>();
+		Vector<Card> allCards = new Vector<Card>();
+
+		
+		allCards.add(suggestion.getCrimeScene());
+		allCards.add(suggestion.getMurderer());
+		allCards.add(suggestion.getMurderWeapon());
+
+		for(Card card: allCards) {
+			if(hand.contains(card)) {
+				matching.add(card);
+			}
+		}
+		
+		return matching.size() > 0 ? matching.get(random.nextInt(matching.size())) : null;
 	}
 
 

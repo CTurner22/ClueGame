@@ -14,7 +14,7 @@ public class Player {
 
 	protected int row;
 	protected int column;
-	private Set<Card> hand;
+	protected Set<Card> hand;
 	
 
 	public Set<Card> getHand() {
@@ -24,7 +24,10 @@ public class Player {
 	// handle convert to actual color later
 	private String color;
 	
-	public Player() {};
+	public Player() {
+		hand = new HashSet<Card>();
+
+	};
 
 	public Player(String name, String color, int row, int col) {
 		this.row = row;
