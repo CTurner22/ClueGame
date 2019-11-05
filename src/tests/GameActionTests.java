@@ -555,32 +555,23 @@ public class GameActionTests {
 	public void testHumanSuggestion() {
 		board.deal();
 		Map<String, Player> players = board.getPlayers();		
-		Set<Card> hand = players.get("Colonel Mustard").getHand();
+		Player p = players.get("Colonel Mustard");
 		
-    	Card murderer = null;
-		Card crimeScene = null;
-		Card murderWeapon = null;
+		Card murderer = new Card("test", CardType.PERSON);
+		Card murderWeapon = new Card("test", CardType.WEAPON);
+		Card crimeScene = new Card("test", CardType.ROOM);
+		
+		p.addToHand(murderer);
+		p.addToHand(crimeScene);
+		p.addToHand(murderWeapon);
 
-
-		// get each type of card from hand
-        for(Card card : hand) {
-			switch(card.getType()){
-			case PERSON:
-				murderer = card;
-				break;
-			case WEAPON:
-				murderWeapon = card;
-				break;
-			case ROOM:
-				crimeScene = card;
-			}
-        }
-        
-		// test Suggestion only human can disprove returns answer (i.e., card that disproves suggestion)
-		assertEquals(murderer, board.handleSuggestion("Mrs. Peacock", new Solution(murderer, new Card("test", CardType.ROOM), new Card("test", CardType.WEAPON))));
 
 		// Suggestion only human can disprove, but human is accuser, returns null
 		assertNull(board.handleSuggestion("Colonel Mustard", new Solution(murderer, crimeScene, murderWeapon)));
+		
+		// test Suggestion only human can disprove returns answer (i.e., card that disproves suggestion)
+		assertEquals(murderer, board.handleSuggestion("Mrs. Peacock", new Solution(murderer, new Card("test", CardType.ROOM), new Card("test", CardType.WEAPON))));
+
 
 	} 
 	

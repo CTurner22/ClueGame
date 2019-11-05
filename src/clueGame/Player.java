@@ -56,6 +56,10 @@ public class Player {
 	public int getColumn() {
 		return column;
 	}
+
+	public Card disproveSuggestion(Solution suggestion) {
+		return null;
+	}
 	
 //	public Card disproveSuggestion(suggestion) {
 //

@@ -469,8 +469,19 @@ public class Board {
 	}
 
 
-	public Object handleSuggestion(String string, Solution theCrime2) {
-		// TODO Auto-generated method stub
+	public Object handleSuggestion(String accuser, Solution suggestion) {
+		Card responseCard = null;
+		
+		for(Player p: players.values()) {
+			if(p.getName() == accuser) {
+				continue;
+			}
+			
+			responseCard = p.disproveSuggestion(suggestion);
+			if(responseCard != null) {
+				return responseCard;
+			}
+		}
 		return null;
 	}
 
