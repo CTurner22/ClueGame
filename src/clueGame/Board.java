@@ -42,7 +42,8 @@ public class Board {
 	private Map<Character, String> legend;	
 
 	
-	private Map<String, Player> players;
+//	private Map<String, Player> players;
+	private Vector<Player> players;
 	private Vector<Card> deck;
 	private Map<Character, Card> roomCards;
 
@@ -84,7 +85,7 @@ public class Board {
 			legend = new HashMap<Character, String>();
 			roomCards = new HashMap<Character, Card>();
 			grid = new BoardCell[MAX_BOARD_SIZE][MAX_BOARD_SIZE];
-			players = new HashMap<String, Player>();			
+			players = new Vector<Player>();			
 			deck = new Vector<Card>();
 
 			loadRoomConfig();
@@ -133,14 +134,14 @@ public class Board {
         // deal
         int i = 0;
         while(i < deck.size()) {
-        	for(Player person : players.values()) {
+        	for(Player person : players) {
         		if(i >= deck.size()) break;
         		person.addToHand(deck.get(i));
         		i++;
         	}
         }
         
-        // add back so computer knows what is can guess
+        // add back so computer knows what it can guess
         deck.add(tempPerson);
         deck.add(tempRoom);
         deck.add(tempWeapon);
@@ -206,9 +207,9 @@ public class Board {
 
 		    // make either human or computer and save as a player
 		    if(human) {
-		    	players.put(name, new HumanPlayer(name, color, row, column));
+		    	players.add( new HumanPlayer(name, color, row, column));
 		    } else {
-		    	players.put(name, new ComputerPlayer(name, color, row, column));
+		    	players.add( new ComputerPlayer(name, color, row, column));
 		    }
 		    
 		    
@@ -444,7 +445,7 @@ public class Board {
 		return targets;
 	}
 
-	public Map<String, Player> getPlayers() {
+	public Vector<Player> getPlayers() {
 		return players;
 	}
 
@@ -469,15 +470,14 @@ public class Board {
 	}
 
 
-	public Object handleSuggestion(String accuser, Solution suggestion) {
+	public Object handleSuggestion(Player accuser, Solution suggestion) {
 		Card responseCard = null;
+		int i = players.indexOf(accuser);
 		
-		for(Player p: players.values()) {
-			if(p.getName() == accuser) {
-				continue;
-			}
+		for(int j =0; j<players.size()-1;j++) {
+			i = (i+1)%players.size();
 			
-			responseCard = p.disproveSuggestion(suggestion);
+			responseCard = players.get(i).disproveSuggestion(suggestion);
 			if(responseCard != null) {
 				return responseCard;
 			}

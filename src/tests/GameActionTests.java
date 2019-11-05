@@ -38,6 +38,7 @@ public class GameActionTests {
 		board = Board.getInstance();
 		board.setConfigFiles("clueGameLayout.csv", "roomLegend.txt", "weapons.txt", "players.txt");		
 		board.initialize();
+		board.deal();
 	}
 	
 
@@ -487,7 +488,7 @@ public class GameActionTests {
         }
         
         // run a ton of loops to ensure has chance to present each card in hand
-        for(int i = 0; i < 10000 ; i ++) {
+        for(int i = 0; i < 300 ; i ++) {
             // create the suggestion
             Solution suggestion = new Solution(people.get(random.nextInt(people.size())), 
             									rooms.get(random.nextInt(rooms.size())), 
@@ -510,52 +511,41 @@ public class GameActionTests {
 
 	// tests all types of suggestions
 	@Test
-	public void testUnProvableSuggestion() {
-		board.deal();
-		Map<String, Player> players = board.getPlayers();
-		
+	public void testUnProvableSuggestion() {		
 		// test suggestion nobody can disprove
-		assertNull(board.handleSuggestion("Mrs. Peacock", board.getTheCrime()));
+		assertNull(board.handleSuggestion(board.getPlayers().get(0), board.getTheCrime()));
 	
 	}
 	
 	// test Suggestion only accusing player can disprove returns null
 	@Test
 	public void testAccusserSuggestion() {
-		board.deal();
-		Map<String, Player> players = board.getPlayers();
 
+		Vector<Player> players = board.getPlayers();
+		Player p = players.get(0);
 	
 		// test Suggestion only accusing player can disprove returns null
-		Set<Card> hand = players.get("Mrs. Peacock").getHand();
 		
-    	Card murderer = null;
-		Card crimeScene = null;
-		Card murderWeapon = null;
+    	Card murderer = new Card("test", CardType.PERSON);
+		Card crimeScene = new Card("test", CardType.ROOM);
+		Card murderWeapon = new Card("test", CardType.WEAPON);
 
-		// get each type of card
-        for(Card card : hand) {
-			switch(card.getType()){
-			case PERSON:
-				murderer = card;
-				break;
-			case WEAPON:
-				murderWeapon = card;
-				break;
-			case ROOM:
-				crimeScene = card;
-			}
-        }
+		
+		p.addToHand(murderer);
+		p.addToHand(crimeScene);
+		p.addToHand(murderWeapon);
+
+
         
-		assertNull(board.handleSuggestion("Mrs. Peacock", new Solution(murderer, crimeScene, murderWeapon)));
+		assertNull(board.handleSuggestion(p, new Solution(murderer, crimeScene, murderWeapon)));
 	}
 	
 	// test human player
 	@Test
 	public void testHumanSuggestion() {
-		board.deal();
-		Map<String, Player> players = board.getPlayers();		
-		Player p = players.get("Colonel Mustard");
+		
+		Vector<Player> players = board.getPlayers();		
+		Player p = players.get(5);
 		
 		Card murderer = new Card("test", CardType.PERSON);
 		Card murderWeapon = new Card("test", CardType.WEAPON);
@@ -567,10 +557,10 @@ public class GameActionTests {
 
 
 		// Suggestion only human can disprove, but human is accuser, returns null
-		assertNull(board.handleSuggestion("Colonel Mustard", new Solution(murderer, crimeScene, murderWeapon)));
+		assertNull(board.handleSuggestion(p, new Solution(murderer, crimeScene, murderWeapon)));
 		
 		// test Suggestion only human can disprove returns answer (i.e., card that disproves suggestion)
-		assertEquals(murderer, board.handleSuggestion("Mrs. Peacock", new Solution(murderer, new Card("test", CardType.ROOM), new Card("test", CardType.WEAPON))));
+		assertEquals(murderer, board.handleSuggestion(players.get(0), new Solution(murderer, new Card("test", CardType.ROOM), new Card("test", CardType.WEAPON))));
 
 
 	} 
@@ -578,34 +568,30 @@ public class GameActionTests {
 	// test multiple players are in order
 	@Test
 	public void testMultipleDisproveSuggestion() {
-		board.deal();
-		Map<String, Player> players = board.getPlayers();		
-		Set<Card> hand = players.get("Colonel Mustard").getHand();
+		Vector<Player> players = board.getPlayers();		
+
+		Player p1 = players.get(1);
+		Player p2 = players.get(2);
+		Player p3 = players.get(3);
+		Player p4 = players.get(5); // human
+
+
+		Card murderer = new Card("test", CardType.PERSON);
+		Card murderWeapon = new Card("test", CardType.WEAPON);
+		Card crimeScene = new Card("test", CardType.ROOM);
 		
-    	Card murderer = null;
-		Card crimeScene = null;
-		Card murderWeapon = null;
+		p1.addToHand(murderer);
+		p2.addToHand(crimeScene);
+		p3.addToHand(murderWeapon);
+		p4.addToHand(murderer);
 
+		
+		
+		// test p2 will diprove if p1 accused
+		assertEquals(crimeScene, board.handleSuggestion(p1, new Solution(murderer, crimeScene,murderWeapon)));
 
-		// get each type of card from hand
-        for(Card card : hand) {
-			switch(card.getType()){
-			case PERSON:
-				murderer = card;
-				break;
-			case WEAPON:
-				murderWeapon = card;
-				break;
-			case ROOM:
-				crimeScene = card;
-			}
-        }
-        
-		// test Suggestion only human can disprove returns answer (i.e., card that disproves suggestion)
-		assertEquals(murderer, board.handleSuggestion("Mrs. Peacock", new Solution(murderer, new Card("test", CardType.ROOM), new Card("test", CardType.WEAPON))));
-
-		// Suggestion only human can disprove, but human is accuser, returns null
-		assertNull(board.handleSuggestion("Colonel Mustard", new Solution(murderer, crimeScene, murderWeapon)));
+		// Test if p2 accuses, p3 will disprove, not human player
+		assertEquals(murderWeapon, board.handleSuggestion(p2, new Solution(murderer, crimeScene, murderWeapon)));
 
 	} 
 	

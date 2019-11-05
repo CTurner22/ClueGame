@@ -41,22 +41,25 @@ public class GameSetupTests {
 		@Test
 		public void testLoadedPlayers(){
 			
-			Map<String, Player> testList = board.getPlayers();
+			Vector<Player> testList = board.getPlayers();
 			
 			// test first in file: name, color and location
-			assertEquals("Purple", testList.get("Professor Plum").getColor());
-			assertEquals( 18, testList.get("Professor Plum").getRow());
-			assertEquals( 0, testList.get("Professor Plum").getColumn());
+			Player firstInPlayerList = testList.get(0);
+			assertEquals("Purple", firstInPlayerList.getColor());
+			assertEquals( 18, firstInPlayerList.getRow());
+			assertEquals( 0, firstInPlayerList.getColumn());
 			
 			// test last in file
-			assertEquals("Yellow", testList.get("Colonel Mustard").getColor());
-			assertEquals( 7, testList.get("Colonel Mustard").getRow());
-			assertEquals( 24, testList.get("Colonel Mustard").getColumn());
+			Player lastInPlayerList = testList.get(testList.size()-1);
+			assertEquals("Yellow", lastInPlayerList.getColor());
+			assertEquals( 7, lastInPlayerList.getRow());
+			assertEquals( 24, lastInPlayerList.getColumn());
 
 			// test mid file
-			assertEquals("Green", testList.get("Mr. Green").getColor());
-			assertEquals( 24, testList.get("Mr. Green").getRow());
-			assertEquals( 18, testList.get("Mr. Green").getColumn());
+			Player midInPlayerList = testList.get(2);
+			assertEquals("Green", midInPlayerList.getColor());
+			assertEquals( 24, midInPlayerList.getRow());
+			assertEquals( 18, midInPlayerList.getColumn());
 			
 		}
 		
@@ -117,14 +120,14 @@ public class GameSetupTests {
 			
 			board.deal();
 			
-			Map<String, Player> players = board.getPlayers();
+			Vector<Player> players = board.getPlayers();
 			Vector<Card> originalDeck = board.getDeck();
 			
 			// evaluate deck
 			int cardsInHands = 0;
 			int maxHand = 0;
 			int minHand = originalDeck.size();
-			for(Player person : players.values()) {
+			for(Player person : players) {
 				
 				// test that each card dealt is in the original deck
 				for(Card card : person.getHand()) {
