@@ -20,6 +20,21 @@ public class ComputerPlayer extends Player {
 	}
 
 
+	public ComputerPlayer() {
+	}
+
+
+	public BoardCell pickLocation(Set<BoardCell> targets) {
+		return null;
+	}
+
+
+	public void addToVisited(BoardCell cellAt) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 //	
 //	public BoardCell pickLocation(Set<BoardCell> targets) {
 //

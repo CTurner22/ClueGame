@@ -23,6 +23,8 @@ public class Player {
 
 	// handle convert to actual color later
 	private String color;
+	
+	public Player() {};
 
 	public Player(String name, String color, int row, int col) {
 		this.row = row;

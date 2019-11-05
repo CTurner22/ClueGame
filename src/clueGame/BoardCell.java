@@ -65,4 +65,9 @@ public class BoardCell {
 		return room == 'W';
 	}
 
+	public boolean isRoom() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }
