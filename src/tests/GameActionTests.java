@@ -3,6 +3,7 @@ package tests;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 import java.util.Vector;
 
@@ -369,4 +370,136 @@ public class GameActionTests {
 			assertTrue(seen);
 		}
     }
+	
+	/*
+	 * Disprove suggestion tests
+	 * 
+	 */
+	
+
+	// test returns null if no match
+	@Test
+	public void testNullSuggestion() {
+		ComputerPlayer player = new ComputerPlayer();
+
+    	Card murderer = null;
+    	Card murderer1 = null;
+		Card crimeScene = null;
+		Card crimeScene1 = null;
+		Card murderWeapon = null;
+		Card murderWeapon1 = null;
+
+		// get 2 of each type of card
+        for(Card card : board.getDeck()) {
+			switch(card.getType()){
+			case PERSON:
+				murderer1 = murderer;
+				murderer = card;
+				break;
+			case WEAPON:
+				murderWeapon1 = murderWeapon;
+				murderWeapon = card;
+				break;
+			case ROOM:
+				crimeScene1 = crimeScene;
+				crimeScene = card;
+			}
+        }
+        
+        // create the player hand
+        player.addToHand(murderer1);
+        player.addToHand(crimeScene1);
+        player.addToHand(murderWeapon1);
+
+        // create the suggestion
+        Solution suggestion = new Solution(murderer, crimeScene, murderWeapon);
+        
+        // check if null
+        assertNull(player.disproveSuggestion(suggestion));
+	} 
+	
+	// test one matching card
+	@Test
+	public void testOneMatchSuggestion() {
+		ComputerPlayer player = new ComputerPlayer();
+
+    	Card murderer = null;
+		Card crimeScene = null;
+		Card crimeScene1 = null;
+		Card murderWeapon = null;
+		Card murderWeapon1 = null;
+
+		// get 2 of each type of card
+        for(Card card : board.getDeck()) {
+			switch(card.getType()){
+			case PERSON:
+				murderer = card;
+				break;
+			case WEAPON:
+				murderWeapon1 = murderWeapon;
+				murderWeapon = card;
+				break;
+			case ROOM:
+				crimeScene1 = crimeScene;
+				crimeScene = card;
+			}
+        }
+        
+        // create the player hand
+        player.addToHand(murderer);
+        player.addToHand(crimeScene1);
+        player.addToHand(murderWeapon1);
+
+        // create the suggestion
+        Solution suggestion = new Solution(murderer, crimeScene, murderWeapon);
+        
+        // check if murder card is returned
+        assertEquals(murderer, player.disproveSuggestion(suggestion));
+	} 
+	
+	// tests multiple cards, random selection
+	@Test
+	public void testMultipleMatchSuggestion() {
+		ComputerPlayer player = new ComputerPlayer();
+		
+		Map<Card, Boolean> cards = new HashMap<Card, Boolean>();
+		Vector<Card> people = new Vector<Card>();
+		Vector<Card> weapons = new Vector<Card>();
+		Vector<Card> rooms = new Vector<Card>();
+
+		Random random = new Random();
+
+		// sort cards for selection, and add everything to player hand
+        for(Card card : board.getDeck()) {
+            player.addToHand(card);
+        	cards.put(card, false);
+        	
+			switch(card.getType()){
+			case PERSON:
+				people.add(card);
+				break;
+			case WEAPON:
+				weapons.add(card);
+				break;
+			case ROOM:
+				rooms.add(card);
+			}
+        }
+        
+        // run a ton of loops to ensure has chance to present each card in hand
+        for(int i = 0; i < 10000 ; i ++) {
+            // create the suggestion
+            Solution suggestion = new Solution(people.get(random.nextInt(people.size())), 
+            									rooms.get(random.nextInt(rooms.size())), 
+            									weapons.get(random.nextInt(weapons.size())));
+            cards.put(player.disproveSuggestion(suggestion), true);
+        }
+
+        
+        // check if all cards were presented at one point
+        for(boolean shown : cards.values()) {
+        	assertTrue(shown);
+        }
+	} 
+	
 }

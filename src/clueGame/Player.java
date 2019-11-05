@@ -35,7 +35,7 @@ public class Player {
 		hand = new HashSet<Card>();
 	}
 	
-	// getters
+	// getters and setters
 	public void addToHand(Card card) {
 		hand.add(card);
 	}

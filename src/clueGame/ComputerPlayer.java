@@ -137,6 +137,11 @@ public class ComputerPlayer extends Player {
 	}
 
 
+	public Card disproveSuggestion(Solution suggestion) {
+		return null;
+	}
+
+
 
 
 //	
