@@ -62,8 +62,10 @@ public class GameActionTests {
 				 loc_2 = true;
 			 else if (selected == board.getCellAt(18, 2))
 				 loc_3 = true;
-			 else
-			 fail("Invalid target selected");
+			 else {
+				fail("Invalid target selected");
+
+			 }
 		 }
 		 // Ensure each target was selected at least once
 		 assertTrue(loc_1);
@@ -78,14 +80,10 @@ public class GameActionTests {
 		 
 		 // Pick a location with no rooms in target, just three targets
 		 board.calcTargets(17, 3, 2);
-		 
-		 // Run the test a large number of times
-		 for (int i=0; i<100; i++) {
 			 
 		 BoardCell selected = player.pickLocation(board.getTargets());
 		 assertTrue(selected.isRoom());
 
-		 }
 	}
 	
 	// test if a room is recently visited, targets are random
@@ -111,7 +109,7 @@ public class GameActionTests {
 			 else if (selected == board.getCellAt(12, 21))
 				 loc_3 = true;
 			 else if (selected == board.getCellAt(13, 22))
-				 loc_3 = true;
+				 loc_4 = true;
 			 else
 				 fail("Invalid target selected");
 		 }

@@ -66,8 +66,14 @@ public class BoardCell {
 	}
 
 	public boolean isRoom() {
-		// TODO Auto-generated method stub
-		return false;
+		return isDoorway();
+	}
+	public int getRow() {
+		return row;
+	}
+
+	public int getColumn() {
+		return column;
 	}
 
 }
