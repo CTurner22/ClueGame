@@ -157,27 +157,4 @@ public class ComputerPlayer extends Player {
 		return matching.size() > 0 ? matching.get(random.nextInt(matching.size())) : null;
 	}
 
-
-
-
-//	
-//	public BoardCell pickLocation(Set<BoardCell> targets) {
-//
-//
-//	}
-//	
-//	public Guess makeAccusation() {
-//
-//	}
-//	
-//
-//	public Guess createSuggestion() {
-//		
-//
-//		
-//	}
-	
-
-
-
 }

@@ -459,9 +459,19 @@ public class Board {
 	public void setTheCrime(Solution actualSolution) {
 		theCrime = actualSolution;
 	}
+	public Solution getTheCrime() {
+		return theCrime;
+	}
+
 
 	public Card getRoomCard(BoardCell cell) {
 		return roomCards.get(cell.getInitial());
+	}
+
+
+	public Object handleSuggestion(String string, Solution theCrime2) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	}
