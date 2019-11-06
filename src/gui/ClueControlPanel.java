@@ -19,9 +19,8 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 import clueGame.Board;
-import clueGame.Guess;
 
-public class ClueControl extends JPanel {
+public class ClueControlPanel extends JPanel {
 	private JTextField name;
 	private JTextField diceRoll;
 	private JTextField guess;
@@ -29,23 +28,22 @@ public class ClueControl extends JPanel {
 	private JButton nextPlayer = new JButton("Next Player");
 	private JButton makeAnAccusation = new JButton("Make an Accusation");
 
-	private static ClueControl theInstance = new ClueControl();
-	private ClueControl() {};
-	public static ClueControl getInstance() {
-		return theInstance;
-	}
-		
-	public void initialize() {
-		// TODO Auto-generated constructor stub
+//	private static ClueControlPanel theInstance = new ClueControlPanel();
+//	private ClueControlPanel() {};
+//	
+//	public static ClueControlPanel getInstance() {
+//		return theInstance;
+//	}
+//	
+	public ClueControlPanel() {
 		setLayout(new GridLayout(2,0));
-		setSize(500, 1000);
-		JPanel panel = createTopPanel();
+//		setSize(1000, 1000);
+		JPanel panel = createPanel1();
 		add(panel);
-		panel = createBottomPanel();
+		panel = createPanel2();
 		add(panel);
 				
 	}
-	
 	
 	
 	private JPanel createPanel1() {
@@ -74,9 +72,6 @@ public class ClueControl extends JPanel {
 	      mainPanel.add(nextPlayer);
 	      mainPanel.add(makeAnAccusation);
 	      return mainPanel;
-	}
-
-
 	}
 
 	
@@ -112,6 +107,21 @@ public class ClueControl extends JPanel {
 		
 		
 		return mainPanel;
+	}
+	
+	public static void main(String[] args) {
+		// Create a JFrame
+		JFrame frame = new JFrame();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setTitle("Clue GUI");frame.setSize(1000, 1);
+		
+		
+		// Create the JPanel and add it to the JFrame
+		ClueControlPanel gui = new ClueControlPanel();
+		frame.add(gui, BorderLayout.CENTER);
+		frame.setVisible(true);
+	
+		
 	}
 
 }

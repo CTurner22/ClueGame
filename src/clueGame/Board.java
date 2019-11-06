@@ -485,4 +485,14 @@ public class Board {
 		return null;
 	}
 
+	public void nextPlayer() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void makeAccusation() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	}
