@@ -20,6 +20,11 @@ import javax.swing.border.TitledBorder;
 
 import clueGame.Board;
 
+/*
+ * The GUI
+ * Casey Turner, Murat Tuter
+ */
+
 public class ClueControlPanel extends JPanel {
 	private JTextField name;
 	private JTextField diceRoll;
@@ -27,17 +32,12 @@ public class ClueControlPanel extends JPanel {
 	private JTextField response;
 	private JButton nextPlayer = new JButton("Next Player");
 	private JButton makeAnAccusation = new JButton("Make an Accusation");
+	public static final int HEIGHT = 215;
+	
 
-//	private static ClueControlPanel theInstance = new ClueControlPanel();
-//	private ClueControlPanel() {};
-//	
-//	public static ClueControlPanel getInstance() {
-//		return theInstance;
-//	}
-//	
 	public ClueControlPanel() {
+		setSize(1000, HEIGHT);
 		setLayout(new GridLayout(2,0));
-//		setSize(1000, 1000);
 		JPanel panel = createPanel1();
 		add(panel);
 		panel = createPanel2();
@@ -107,21 +107,6 @@ public class ClueControlPanel extends JPanel {
 		
 		
 		return mainPanel;
-	}
-	
-	public static void main(String[] args) {
-		// Create a JFrame
-		JFrame frame = new JFrame();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setTitle("Clue GUI");frame.setSize(1000, 1);
-		
-		
-		// Create the JPanel and add it to the JFrame
-		ClueControlPanel gui = new ClueControlPanel();
-		frame.add(gui, BorderLayout.CENTER);
-		frame.setVisible(true);
-	
-		
 	}
 
 }

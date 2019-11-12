@@ -1,5 +1,5 @@
-Professor Plum, Purple, Computer, 18, 0 
-Mrs. White, White, Computer, 24, 7
+Professor Plum, Magenta, Computer, 18, 0 
+Mrs. White, Pink, Computer, 24, 7
 Mr. Green, Green, Computer, 24, 18 
 Mrs. Peacock, Blue, Computer, 18, 24 
 Miss Scarlet, Red, Computer, 13, 24

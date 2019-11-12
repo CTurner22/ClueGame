@@ -3,6 +3,7 @@ package clueGame;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.List;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
@@ -16,13 +17,14 @@ public class Player {
 	protected int column;
 	protected Set<Card> hand;
 	
+		// handle convert to actual color later
+	private String color;
 
 	public Set<Card> getHand() {
 		return hand;
 	}
 
-	// handle convert to actual color later
-	private String color;
+
 	
 	public Player() {
 		hand = new HashSet<Card>();
@@ -59,6 +61,25 @@ public class Player {
 
 	public Card disproveSuggestion(Solution suggestion) {
 		return null;
+	}
+
+	public void draw(Graphics g) {
+		int scale = BoardCell.SCALE_FACTOR;
+		Color c = Color.BLACK;
+
+
+	    try {
+			Field field = Class.forName("java.awt.Color").getField(color.toLowerCase());
+			c = (Color)field.get(null);
+		} catch (Exception e) {
+			System.err.println("Wrong Color Format: " + color);;
+		}
+	    
+	    //color the actual circle and border
+	    g.setColor(c);
+		g.fillOval(column*scale, row*scale, scale, scale);
+		g.setColor(Color.BLACK);
+		g.drawOval(column*scale, row*scale, scale, scale);
 	}
 	
 //	public Card disproveSuggestion(suggestion) {

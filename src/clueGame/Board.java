@@ -1,5 +1,8 @@
 package clueGame;
 
+import java.awt.BorderLayout;
+import java.awt.Graphics;
+import java.awt.MenuItem;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Collection;
@@ -13,6 +16,14 @@ import java.util.Set;
 import java.util.Vector;
 
 import javax.lang.model.type.DeclaredType;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JPanel;
+
+import gui.ClueControlPanel;
+import gui.ExitMenuItem;
+import gui.NotesMenuItem;
 
 
 /*
@@ -21,7 +32,8 @@ import javax.lang.model.type.DeclaredType;
  * 
  */
 
-public class Board {
+@SuppressWarnings("serial")
+public class Board extends JPanel {
 
 	private final  int MAX_BOARD_SIZE = 50;
 	private int numRows;
@@ -60,13 +72,59 @@ public class Board {
 	}
 
 
+	
+	public static void main(String[] args) {
+		Board board = Board.getInstance();
+		board.setConfigFiles("clueGameLayout.csv", "roomLegend.txt", "weapons.txt", "players.txt");		
+		board.initialize();
+
+		// Create a JFrame
+		JFrame frame = new JFrame();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setTitle("Clue GUI");
+		frame.setSize(board.numColumns*BoardCell.SCALE_FACTOR, board.numRows*BoardCell.SCALE_FACTOR+ClueControlPanel.HEIGHT);
+		
+		//create menu bar
+		JMenu menu = new JMenu("File");
+		menu.add(new ExitMenuItem());
+		menu.add(new NotesMenuItem());
+
+		
+		JMenuBar bar = new JMenuBar();
+		bar.add(menu);
+		frame.setJMenuBar(bar);
+		
+		// Create the JPanels and add it to the JFrame
+		ClueControlPanel gui = new ClueControlPanel();
+		frame.add(gui, BorderLayout.SOUTH);
+		
+		frame.add(board, BorderLayout.CENTER);
+	
+		// show it
+		frame.setVisible(true);
+
+	}
+	
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		
+		for(int i = 0; i<numColumns;i++) {
+			for(int j=0; j<numRows; j++) {
+				grid[i][j].draw(g);
+			}
+		}
+		
+		for( Player p: players) {
+			p.draw(g);
+		}
+	}
+	
 	public void setConfigFiles(String boardFile, String roomFile) {
 		
 		layoutFile = path + boardFile;
 		this.roomFile = path + roomFile;
 
 	}
-	// TODO Auto-generated method stub
 
 	public void setConfigFiles(String boardFile, String roomFile, String weaponsFile, String playersFile) {
 		
@@ -104,7 +162,7 @@ public class Board {
 	
 	public void deal() {
 
-		// shuffle deck
+		// shuffle with a set of "detective notes" that players used to keep track of cards they've seen and to indicate who they currently suspect (if anyone). For the computer players these detective notes are represented as a list of seen cards. To assist the human player, we will create a custom dialog that can be filled in (but it's up to the human to use it). The custom dialog is shown below. The check boxes on the left can be used to check off any cards that have been seen. The combo boxes can be used to remember the player's c deck
 		Collections.shuffle(deck);
 		
 		Card tempPerson = deck.get(0), tempRoom = deck.get(0), tempWeapon = deck.get(0);
@@ -410,6 +468,8 @@ public class Board {
 		    		case 'D':
 		    			door = DoorDirection.DOWN;
 		    			break;
+		    		case 'C':
+		    			tempBoardCell.setCenterRoom(true);
 		    		default:
 		    			door = DoorDirection.NA;
 		    		}
@@ -483,6 +543,10 @@ public class Board {
 			}
 		}
 		return null;
+	}
+
+	public String getRoomName(char c) {
+		return legend.get(c);
 	}
 
 	public void nextPlayer() {
