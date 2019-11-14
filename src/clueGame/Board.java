@@ -19,6 +19,7 @@ import javax.lang.model.type.DeclaredType;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import gui.ClueControlPanel;
@@ -56,6 +57,8 @@ public class Board extends JPanel {
 	
 //	private Map<String, Player> players;
 	private Vector<Player> players;
+	private HumanPlayer humanPlayer;
+
 	private Vector<Card> deck;
 	private Map<Character, Card> roomCards;
 
@@ -69,40 +72,6 @@ public class Board extends JPanel {
 	// this method returns the only Board
 	public static Board getInstance() {
 		return theInstance;
-	}
-
-
-	
-	public static void main(String[] args) {
-		Board board = Board.getInstance();
-		board.setConfigFiles("clueGameLayout.csv", "roomLegend.txt", "weapons.txt", "players.txt");		
-		board.initialize();
-
-		// Create a JFrame
-		JFrame frame = new JFrame();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setTitle("Clue GUI");
-		frame.setSize(board.numColumns*BoardCell.SCALE_FACTOR, board.numRows*BoardCell.SCALE_FACTOR+ClueControlPanel.HEIGHT);
-		
-		//create menu bar
-		JMenu menu = new JMenu("File");
-		menu.add(new ExitMenuItem());
-		menu.add(new NotesMenuItem());
-
-		
-		JMenuBar bar = new JMenuBar();
-		bar.add(menu);
-		frame.setJMenuBar(bar);
-		
-		// Create the JPanels and add it to the JFrame
-		ClueControlPanel gui = new ClueControlPanel();
-		frame.add(gui, BorderLayout.SOUTH);
-		
-		frame.add(board, BorderLayout.CENTER);
-	
-		// show it
-		frame.setVisible(true);
-
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -256,7 +225,7 @@ public class Board extends JPanel {
 		    }
 		    
 		    // parse data
-		    Boolean human = data[2].trim().toLowerCase() == "human" ? true : false;
+		    Boolean human = data[2].trim().toLowerCase().contains("human") ? true : false;
 
 		    String name = data[0].trim();
 		    String color = data[1].trim();
@@ -265,7 +234,8 @@ public class Board extends JPanel {
 
 		    // make either human or computer and save as a player
 		    if(human) {
-		    	players.add( new HumanPlayer(name, color, row, column));
+		    	humanPlayer = new HumanPlayer(name, color, row, column);
+		    	players.add( humanPlayer);
 		    } else {
 		    	players.add( new ComputerPlayer(name, color, row, column));
 		    }
@@ -549,14 +519,17 @@ public class Board extends JPanel {
 		return legend.get(c);
 	}
 
-	public void nextPlayer() {
-		// TODO Auto-generated method stub
+	public Player nextPlayer() {
 		
+		return null;		
 	}
 
 	public void makeAccusation() {
 		// TODO Auto-generated method stub
 		
+	}
+	public HumanPlayer getHumanPlayer() {
+		return humanPlayer;
 	}
 
 	}

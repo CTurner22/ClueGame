@@ -19,6 +19,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 import clueGame.Board;
+import clueGame.Player;
 
 /*
  * The GUI
@@ -32,10 +33,13 @@ public class ClueControlPanel extends JPanel {
 	private JTextField response;
 	private JButton nextPlayer = new JButton("Next Player");
 	private JButton makeAnAccusation = new JButton("Make an Accusation");
+	private Player currentPlayer;
+	
 	public static final int HEIGHT = 215;
 	
 
-	public ClueControlPanel() {
+	public ClueControlPanel(Player p) {
+		currentPlayer = p;
 		setSize(1000, HEIGHT);
 		setLayout(new GridLayout(2,0));
 		JPanel panel = createPanel1();
@@ -47,28 +51,36 @@ public class ClueControlPanel extends JPanel {
 	
 	
 	private JPanel createPanel1() {
-	      JPanel mainPanel = new JPanel();      
-	      mainPanel.setLayout(new GridLayout(1,3));      
-
-	      JPanel upperLeft = new JPanel();
-	      upperLeft.setLayout(new GridLayout(2,1));
-	      JLabel nameLabel = new JLabel("Whose turn?", JLabel.CENTER);
-
-	    
-	      //create next player and make an accusation buttons
-	      nextPlayer.addActionListener( new ActionListener() {
-	    	  public void actionPerformed(ActionEvent ae) {
-	    		  Board.getInstance().nextPlayer();
-	    		  repaint();
-	    	  }
-	      });
-	      makeAnAccusation.addActionListener(new ActionListener() {
-	    	  public void actionPerformed(ActionEvent ae) {
-	    		  Board.getInstance().makeAccusation();
-	    		  
-	    	
-	    	  }
-	      });
+		  JPanel mainPanel = new JPanel();      
+		  mainPanel.setLayout(new GridLayout(1,3));      
+		
+		
+		  //create next player and make an accusation buttons
+		  nextPlayer.addActionListener( new ActionListener() {
+			  public void actionPerformed(ActionEvent ae) {
+				  currentPlayer = Board.getInstance().nextPlayer();
+				  repaint();
+			  }
+		  });
+		  
+		  makeAnAccusation.addActionListener(new ActionListener() {
+			  public void actionPerformed(ActionEvent ae) {
+				  Board.getInstance().makeAccusation();
+				  
+			  }
+		  });
+		  
+		  // make current player indicator
+		  JPanel currentPlayerPanel = new JPanel(); //Guess
+		  currentPlayerPanel.setBorder(BorderFactory.createTitledBorder("Current Player"));
+		  
+		  JTextField cP = new JTextField(currentPlayer.getName());
+		  cP.setEditable(false);
+		  currentPlayerPanel.add(cP);
+		  
+		  
+		  // add them all to frame
+		  mainPanel.add(currentPlayerPanel);
 	      mainPanel.add(nextPlayer);
 	      mainPanel.add(makeAnAccusation);
 	      return mainPanel;
@@ -91,8 +103,7 @@ public class ClueControlPanel extends JPanel {
 		JPanel center = new JPanel(); //Guess
 		titleBorder = BorderFactory.createTitledBorder("Guess");
 		center.setBorder(titleBorder);
-		guess = new JTextField(30);
-	    guess.setEditable(false);
+		guess = new JTextField(20);
 		center.add(guess);
 	    mainPanel.add(center);
 		
