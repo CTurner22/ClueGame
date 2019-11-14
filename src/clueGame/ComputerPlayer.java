@@ -149,6 +149,7 @@ public class ComputerPlayer extends Player {
 		allCards.add(suggestion.getMurderWeapon());
 
 		for(Card card: allCards) {
+			addToSeen(card);
 			if(hand.contains(card)) {
 				matching.add(card);
 			}

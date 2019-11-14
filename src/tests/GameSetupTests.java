@@ -45,7 +45,7 @@ public class GameSetupTests {
 			
 			// test first in file: name, color and location
 			Player firstInPlayerList = testList.get(0);
-			assertEquals("Purple", firstInPlayerList.getColor());
+			assertEquals("Magenta", firstInPlayerList.getColor());
 			assertEquals( 18, firstInPlayerList.getRow());
 			assertEquals( 0, firstInPlayerList.getColumn());
 			
