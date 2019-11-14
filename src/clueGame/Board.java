@@ -58,6 +58,7 @@ public class Board extends JPanel {
 //	private Map<String, Player> players;
 	private Vector<Player> players;
 	private HumanPlayer humanPlayer;
+	private Player currentPlayer;
 
 	private Vector<Card> deck;
 	private Map<Character, Card> roomCards;
@@ -235,6 +236,7 @@ public class Board extends JPanel {
 		    // make either human or computer and save as a player
 		    if(human) {
 		    	humanPlayer = new HumanPlayer(name, color, row, column);
+		    	currentPlayer = humanPlayer;
 		    	players.add( humanPlayer);
 		    } else {
 		    	players.add( new ComputerPlayer(name, color, row, column));
@@ -520,8 +522,14 @@ public class Board extends JPanel {
 	}
 
 	public Player nextPlayer() {
+		// handle any game logic
 		
-		return null;		
+		//move to next player
+		int i = players.indexOf(currentPlayer);
+		i = (i+1) % players.size();
+		
+		currentPlayer = players.get(i);
+		return currentPlayer;		
 	}
 
 	public void makeAccusation() {
