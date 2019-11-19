@@ -9,6 +9,7 @@ import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
 import java.util.Vector;
+import java.util.jar.Attributes.Name;
 import java.util.logging.Handler;
 
 public class ComputerPlayer extends Player {
@@ -53,7 +54,8 @@ public class ComputerPlayer extends Player {
 		Vector<BoardCell> unVisitedPick = new Vector<BoardCell>();
 
 		Random random = new Random();
-		int randElement = random.nextInt(targets.size()-1);
+
+		int randElement = random.nextInt(targets.size());
 		int i =0;
 		
 		for(BoardCell target : targets) {

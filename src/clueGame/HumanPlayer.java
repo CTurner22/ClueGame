@@ -6,10 +6,9 @@ import java.util.Vector;
 
 public class HumanPlayer extends Player {
 
-	private boolean isHuman = true;
-
 	public HumanPlayer(String nm, String c, int rw, int col) {
 		super(nm, c, rw, col);
+		isHuman = true;
 	}
 
 	public Card disproveSuggestion(Solution suggestion) {

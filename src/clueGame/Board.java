@@ -3,6 +3,8 @@ package clueGame;
 import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.MenuItem;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Collection;
@@ -34,7 +36,7 @@ import gui.NotesMenuItem;
  */
 
 @SuppressWarnings("serial")
-public class Board extends JPanel {
+public class Board extends JPanel implements MouseListener {
 
 	private final  int MAX_BOARD_SIZE = 50;
 	private int numRows;
@@ -46,12 +48,13 @@ public class Board extends JPanel {
 	private String roomFile;
 	private String weaponsFile;
 	private String playersFile;
-	
+	private Boolean waitingForHuman;
+
 	private Map<BoardCell, Set<BoardCell>> adjacencies;
 	private Set<BoardCell> visited;
 	private Set<BoardCell> targets;
 	private BoardCell[][] grid;
-
+	
 	private Map<Character, String> legend;	
 
 	
@@ -128,6 +131,8 @@ public class Board extends JPanel {
 		
 		// initialize adj lists
 		calcAdjacencies();
+		addMouseListener(this);
+		waitingForHuman = false;
 	}
 	
 	public void deal() {
@@ -158,7 +163,7 @@ public class Board extends JPanel {
         deck.remove(tempPerson);
         deck.remove(tempRoom);
         deck.remove(tempWeapon);
-
+        
         // deal
         int i = 0;
         while(i < deck.size()) {
@@ -222,7 +227,7 @@ public class Board extends JPanel {
 		    }
 		    
 		    if (data[0].trim() == "") { 
-		    	throw new BadConfigFormatException("Incorrect player file format");
+		    	throw new BadConfigFormatException("IncorrectwaitingForHuman player file format");
 		    }
 		    
 		    // parse data
@@ -236,8 +241,9 @@ public class Board extends JPanel {
 		    // make either human or computer and save as a player
 		    if(human) {
 		    	humanPlayer = new HumanPlayer(name, color, row, column);
-		    	currentPlayer = humanPlayer;
+		    	currentPlayer = (players.size() > 0) ? players.get(players.size()-1): null;
 		    	players.add( humanPlayer);
+		    	
 		    } else {
 		    	players.add( new ComputerPlayer(name, color, row, column));
 		    }
@@ -245,10 +251,11 @@ public class Board extends JPanel {
 		    
 		    // make the player card
 		    deck.add(new Card(name, CardType.PERSON));
-
-	    	
 		}
 
+		if (currentPlayer == null) {
+			currentPlayer = players.get(players.size()-1);
+		}
 	}
 
 	public void calcTargets(int i, int j, int pathLength) {
@@ -279,7 +286,6 @@ public class Board extends JPanel {
 					//recurse
 					findTargets(nextTo, pathLength-1);
 				}
-				
 				visited.remove(nextTo);
 			}
 			
@@ -521,14 +527,14 @@ public class Board extends JPanel {
 		return legend.get(c);
 	}
 
-	public Player nextPlayer() {
-		// handle any game logic
-		
+	public Player nextPlayer() {		
 		//move to next player
 		int i = players.indexOf(currentPlayer);
 		i = (i+1) % players.size();
 		
 		currentPlayer = players.get(i);
+		
+		
 		return currentPlayer;		
 	}
 
@@ -539,5 +545,69 @@ public class Board extends JPanel {
 	public HumanPlayer getHumanPlayer() {
 		return humanPlayer;
 	}
+
+	public void handleMovements(int roll) {
+		// calculate the targets for player
+		calcTargets(currentPlayer.getRow(), currentPlayer.getColumn(), roll);
+
+		// handle different player types
+		if(!currentPlayer.isHuman()) {
+			BoardCell newLoc = currentPlayer.pickLocation(targets);
+			currentPlayer.move(newLoc);
+		} else {
+			
+			// display targets
+			for(BoardCell x : targets) {
+				x.setAsTarget();
+			}
+			repaint();
+			waitingForHuman = true;
+
+
+		}
+		
+		repaint();
+	}
+	
+	public Boolean getWaitingForHuman() {
+		return waitingForHuman;
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		if(!waitingForHuman)return;
+		int r = e.getY()/BoardCell.SCALE_FACTOR;
+		int c = e.getX()/BoardCell.SCALE_FACTOR;
+		
+		BoardCell selected = grid[r][c];
+		
+		//check if valid target
+		if(!targets.contains(selected))return;
+		
+		// move player
+		currentPlayer.move(selected);
+		
+		// unselect targets
+		for(BoardCell x : targets) {
+			x.removeAsTarget();
+		}
+		
+		repaint();
+		waitingForHuman = false;
+		ClueControlPanel.setHumanTurnDone();
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {}
+
+	@Override
+	public void mouseExited(MouseEvent e) {}
+
+	@Override
+	public void mousePressed(MouseEvent e) {}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {}
 
 	}

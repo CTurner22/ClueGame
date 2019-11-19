@@ -18,7 +18,7 @@ import clueGame.Card;
 @SuppressWarnings("serial")
 public class PlayerCardPanels extends JPanel {
 	public static final int HEIGHT = 1000;
-	public static final int WIDTH = 150;
+	public static final int WIDTH = 200;
 
 	private Set<Card> hand;
 	

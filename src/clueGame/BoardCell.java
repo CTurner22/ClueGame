@@ -15,6 +15,7 @@ public class BoardCell {
 	private char room;
 	private DoorDirection door;
 	private boolean centerRoom;
+	private boolean isTarget;
 	
 	public boolean isCenterRoom() {
 		return centerRoom;
@@ -39,6 +40,7 @@ public class BoardCell {
 		room = rm;
 		door = DoorDirection.NA;
 		centerRoom = false;
+		isTarget = false;
 	}
 	
 	public void setDoor(DoorDirection d) {
@@ -96,7 +98,7 @@ public class BoardCell {
 		// draw grid on room type switch
 		switch(room) {
 		case 'W':
-			g.setColor(Color.WHITE);
+			g.setColor((isTarget) ? Color.RED : Color.WHITE);
 			g.fillRect(column*SCALE_FACTOR, row*SCALE_FACTOR, SCALE_FACTOR, SCALE_FACTOR);
 			g.setColor(Color.BLACK);
 			g.drawRect(column*SCALE_FACTOR, row*SCALE_FACTOR, SCALE_FACTOR, SCALE_FACTOR);
@@ -108,7 +110,7 @@ public class BoardCell {
 			return;
 			
 		default:
-			g.setColor(Color.LIGHT_GRAY);
+			g.setColor((isTarget) ? Color.RED : Color.LIGHT_GRAY);
 			g.fillRect(column*SCALE_FACTOR, row*SCALE_FACTOR, SCALE_FACTOR, SCALE_FACTOR);
 			drawDoor(g);
 			if(centerRoom) {
@@ -153,6 +155,14 @@ public class BoardCell {
 		
 		//draw it
 		g.fillRect(x, y, width, height);
+	}
+
+	public void setAsTarget() {
+		isTarget = true;
+	}
+
+	public void removeAsTarget() {
+		isTarget = false;		
 	}
 
 }

@@ -16,8 +16,9 @@ public class Player {
 	protected int row;
 	protected int column;
 	protected Set<Card> hand;
+	protected boolean isHuman;
 	
-		// handle convert to actual color later
+	// handle convert to actual color later
 	private String color;
 
 	public Set<Card> getHand() {
@@ -27,6 +28,7 @@ public class Player {
 
 	
 	public Player() {
+		isHuman = false;
 		hand = new HashSet<Card>();
 
 	};
@@ -36,6 +38,7 @@ public class Player {
 		this.name = name;
 		this.color = color;
 		this.column = col;
+		isHuman = false;
 		
 		hand = new HashSet<Card>();
 	}
@@ -81,6 +84,26 @@ public class Player {
 		g.setColor(Color.BLACK);
 		g.drawOval(column*scale, row*scale, scale, scale);
 	}
+
+
+
+	public boolean isHuman() {
+		return isHuman;
+	}
+
+
+
+	public BoardCell pickLocation(Set<BoardCell> targets) {
+		return null;
+	}
+
+
+
+	public void move(BoardCell newLoc) {
+		row = newLoc.getRow();
+		column = newLoc.getColumn();
+	}
+
 	
 //	public Card disproveSuggestion(suggestion) {
 //
