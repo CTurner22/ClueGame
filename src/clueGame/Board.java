@@ -18,15 +18,20 @@ import java.util.Set;
 import java.util.Vector;
 
 import javax.lang.model.type.DeclaredType;
+import javax.naming.spi.DirStateFactory.Result;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.Popup;
+import javax.swing.PopupFactory;
 
 import gui.ClueControlPanel;
 import gui.ExitMenuItem;
 import gui.NotesMenuItem;
+import gui.suggestionInput;
 
 
 /*
@@ -67,6 +72,7 @@ public class Board extends JPanel implements MouseListener {
 	private Map<Character, Card> roomCards;
 
 	private Solution theCrime;
+	private ClueControlPanel controlPanel; 
 	
 	private static Board theInstance = new Board();
 	
@@ -508,7 +514,7 @@ public class Board extends JPanel implements MouseListener {
 	}
 
 
-	public Object handleSuggestion(Player accuser, Solution suggestion) {
+	public Card handleSuggestion(Player accuser, Solution suggestion) {
 		Card responseCard = null;
 		int i = players.indexOf(accuser);
 		
@@ -517,9 +523,11 @@ public class Board extends JPanel implements MouseListener {
 			
 			responseCard = players.get(i).disproveSuggestion(suggestion);
 			if(responseCard != null) {
+				controlPanel.updateSuggestion(suggestion.toString(), responseCard.getName());
 				return responseCard;
 			}
 		}
+		controlPanel.updateSuggestion(suggestion.toString(), "No new clue");
 		return null;
 	}
 
@@ -538,15 +546,26 @@ public class Board extends JPanel implements MouseListener {
 		return currentPlayer;		
 	}
 
-	public void makeAccusation() {
-		// TODO Auto-generated method stub
+	public void handleAccusation(Solution acc) {
+		String message = currentPlayer.getName() + " makes the accusation: \n" + acc.toString();
+		message += checkAccusation(acc) ? "Solution is Correct" : "Solution is incorrect";
 		
+		// make start popup
+		JOptionPane.showMessageDialog(null, message, "Accusation Made", JOptionPane.INFORMATION_MESSAGE);	
 	}
+	
+
 	public HumanPlayer getHumanPlayer() {
 		return humanPlayer;
 	}
 
 	public void handleMovements(int roll) {
+		// first check for accusation 
+		Solution acc = currentPlayer.getAccusation();
+		if( acc != null ) {
+			handleAccusation(acc);
+		}
+		
 		// calculate the targets for player
 		calcTargets(currentPlayer.getRow(), currentPlayer.getColumn(), roll);
 
@@ -554,6 +573,21 @@ public class Board extends JPanel implements MouseListener {
 		if(!currentPlayer.isHuman()) {
 			BoardCell newLoc = currentPlayer.pickLocation(targets);
 			currentPlayer.move(newLoc);
+			repaint();
+			
+			// handle suggestion if target is room 
+			if (newLoc.isRoom()) {
+				Solution suggestion = currentPlayer.createSuggestion();
+				Card disproved = handleSuggestion(currentPlayer, suggestion);
+				String result = "";
+				if (disproved == null){
+					result = "No new clue";
+					currentPlayer.addAccusation(suggestion);
+				};
+
+				
+			}
+			
 		} else {
 			
 			// display targets
@@ -582,7 +616,11 @@ public class Board extends JPanel implements MouseListener {
 		BoardCell selected = grid[r][c];
 		
 		//check if valid target
-		if(!targets.contains(selected))return;
+		if(!targets.contains(selected)) {
+			// make error popup
+			JOptionPane.showMessageDialog(null, "Invalid location selected", "Error", JOptionPane.ERROR_MESSAGE);	
+			return;
+		}
 		
 		// move player
 		currentPlayer.move(selected);
@@ -593,9 +631,22 @@ public class Board extends JPanel implements MouseListener {
 		}
 		
 		repaint();
+		
+		//if it is a room, prompt user for suggestion
+		if(selected.isRoom()) {
+			handleUserSuggestion(selected);
+		}
+		
+		
 		waitingForHuman = false;
 		ClueControlPanel.setHumanTurnDone();
 		
+	}
+
+	private void handleUserSuggestion(BoardCell room) {
+		Card rm = roomCards.get(room.getInitial());
+		suggestionInput input = new suggestionInput(rm);
+		input.setVisible(true);
 	}
 
 	@Override
@@ -609,5 +660,22 @@ public class Board extends JPanel implements MouseListener {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {}
+
+
+	public void setControlPanel(ClueControlPanel controlPanel) {
+		this.controlPanel = controlPanel;
+	}
+
+	public void skipHumanMovement() {
+		// unselect targets
+		for(BoardCell x : targets) {
+			x.removeAsTarget();
+		}
+		
+		repaint();
+		
+		waitingForHuman = false;		
+		ClueControlPanel.setHumanTurnDone();
+	}
 
 	}

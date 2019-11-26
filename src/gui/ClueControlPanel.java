@@ -103,7 +103,38 @@ public class ClueControlPanel extends JPanel {
 		  
 		  makeAnAccusation.addActionListener(new ActionListener() {
 			  public void actionPerformed(ActionEvent ae) {
-				  Board.getInstance().makeAccusation();
+				  Board board = Board.getInstance();
+
+				  if(!humanTurnDone) {
+					  // skip the human movement part
+					  board.skipHumanMovement();
+					  
+					  // handle accusation
+					  accusationInput input = new accusationInput();
+					  input.setVisible(true);
+
+					  // move on
+					  
+					  //get next player
+					  currentPlayer = board.nextPlayer();
+					  
+					  // roll the dice
+					  int roll = random.nextInt(6) + 1;
+					  
+					  //update control panel
+					  diceRoll.setText(String.valueOf(roll));
+					  cP.setText(currentPlayer.getName());
+					  repaint();
+					  
+					  // handle movements
+					  board.handleMovements(roll);
+					  humanTurnDone = !board.getWaitingForHuman();
+					  
+				  } else {
+					  // display error
+						JOptionPane.showMessageDialog(null, "You cannot make an accusation until your turn.", "Error", JOptionPane.ERROR_MESSAGE);
+				  }
+
 				  
 			  }
 		  });
@@ -133,7 +164,8 @@ public class ClueControlPanel extends JPanel {
 		JPanel center = new JPanel(); //Guess
 		titleBorder = BorderFactory.createTitledBorder("Guess");
 		center.setBorder(titleBorder);
-		guess = new JTextField(20);
+		guess = new JTextField(26);
+	    guess.setEditable(false);
 		center.add(guess);
 	    mainPanel.add(center);
 		
@@ -148,6 +180,12 @@ public class ClueControlPanel extends JPanel {
 		
 		
 		return mainPanel;
+	}
+	
+	public void updateSuggestion(String suggestion, String result){
+		  guess.setText(suggestion);
+		  response.setText(result);
+		  repaint();
 	}
 
 	public static void setHumanTurnDone() {

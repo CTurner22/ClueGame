@@ -1,4 +1,7 @@
 package clueGame;
+
+import org.junit.platform.commons.util.ToStringBuilder;
+
 /*
  * The solution class to hold the final awnser
  * Casey Turner, Murat Tuter
@@ -41,5 +44,9 @@ public class Solution {
             return murderer == q.murderer && crimeScene == q.crimeScene && murderWeapon == q.murderWeapon;
         }
         return false;
+    }
+    
+    public String toString() {
+    	return murderer.toString() + " in the "+ crimeScene.toString() + " with the "+ murderWeapon.toString();
     }
 }

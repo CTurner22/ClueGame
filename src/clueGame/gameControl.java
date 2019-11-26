@@ -46,6 +46,7 @@ public class gameControl {
 		
 		// Create the JPanels and add it to the JFrame
 		ClueControlPanel gui = new ClueControlPanel(board.getHumanPlayer());
+		board.setControlPanel(gui);
 		PlayerCardPanels cardsPanel = new PlayerCardPanels(board.getHumanPlayer().getHand());
 		frame.add(gui, BorderLayout.SOUTH);
 		frame.add(board, BorderLayout.CENTER);

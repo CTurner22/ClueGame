@@ -20,6 +20,7 @@ public class ComputerPlayer extends Player {
 	private  Set<Card> roomsSeen;
 	private  Set<Card> peopleSeen;
 	private  Set<Card> weaponsSeen;
+	Solution accusation;
 
 
 //	Guess accusation = null;
@@ -32,6 +33,7 @@ public class ComputerPlayer extends Player {
 		roomsSeen = new HashSet<Card>();
 		peopleSeen = new HashSet<Card>();
 		weaponsSeen = new HashSet<Card>();
+		accusation = null;
 
 
 		//this.lastRoom = '#'; //Make it so there is no last room to start.
@@ -44,6 +46,15 @@ public class ComputerPlayer extends Player {
 		roomsSeen = new HashSet<Card>();
 		peopleSeen = new HashSet<Card>();
 		weaponsSeen = new HashSet<Card>();
+		accusation = null;
+	}
+	
+	public void addAccusation(Solution suggestion) {
+		accusation = suggestion;
+	}
+	
+	public Solution getAccusation() {
+		return accusation;
 	}
 
 

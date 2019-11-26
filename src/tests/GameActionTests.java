@@ -21,6 +21,7 @@ import clueGame.CardType;
 
 import clueGame.Player;
 import clueGame.Solution;
+import gui.ClueControlPanel;
 
 
 /*
@@ -39,6 +40,7 @@ public class GameActionTests {
 		board.setConfigFiles("clueGameLayout.csv", "roomLegend.txt", "weapons.txt", "players.txt");		
 		board.initialize();
 		board.deal();
+		board.setControlPanel(new ClueControlPanel(new Player()));
 	}
 	
 

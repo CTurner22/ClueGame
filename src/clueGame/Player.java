@@ -66,6 +66,10 @@ public class Player {
 		return null;
 	}
 
+	public Solution createSuggestion() {
+		return null;
+	}
+	
 	public void draw(Graphics g) {
 		int scale = BoardCell.SCALE_FACTOR;
 		Color c = Color.BLACK;
@@ -91,7 +95,10 @@ public class Player {
 		return isHuman;
 	}
 
-
+	
+	public Solution getAccusation() {
+		return null;
+	}
 
 	public BoardCell pickLocation(Set<BoardCell> targets) {
 		return null;
@@ -102,6 +109,12 @@ public class Player {
 	public void move(BoardCell newLoc) {
 		row = newLoc.getRow();
 		column = newLoc.getColumn();
+	}
+
+
+
+	public void addAccusation(Solution suggestion) {
+		
 	}
 
 	
